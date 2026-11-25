@@ -12,7 +12,7 @@ run:
   max_item_age_days: 45    # nur News-Artikel der letzten X Tage auswerten
   state_file: data/state.json
   blocklist_file: blocklist.txt
-  user_agent: "StartupScout/0.1 (Startup-Scouting; Kontakt: scouting@example.org)"   # <- eure echte Adresse eintragen!
+  user_agent: "StartupScout/0.1 (Startup-Scouting; Kontakt: lukasphil2006@gmail.com)"   # <- eure echte Adresse eintragen!
   require_email_domain_match: true   # E-Mail muss zur Domain der Website passen
 
 # ------------------------------------------------------------
