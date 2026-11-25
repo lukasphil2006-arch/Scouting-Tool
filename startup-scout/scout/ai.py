@@ -50,8 +50,15 @@ class Checker:
         self.max_calls = int(a.get("max_calls", 120))
         self.calls = 0
         self.failed = False
+        self.checked = 0
+        if not a.get("enabled"):
+            self.status = "KI-Prüfung ausgeschaltet (config.yaml: ai.enabled)"
+        elif not self.key:
+            self.status = f"KI-Prüfung aus: Secret {a.get('key_env', 'AI_API_KEY')} ist im Lauf nicht angekommen"
+        else:
+            self.status = "KI-Prüfung aktiv, aber keine Kandidaten"
         if a.get("enabled") and not self.key:
-            print(f"KI-Prüfung übersprungen: Secret {a.get('key_env', 'AI_API_KEY')} ist nicht gesetzt.")
+            print(self.status)
 
     def _post(self, messages):
         body = {"model": self.model, "messages": messages, "temperature": 0.1,
@@ -99,6 +106,7 @@ class Checker:
             except AIUnavailable as exc:
                 print(f"::warning::KI-Prüfung nicht verfügbar ({exc}). Der Lauf geht regelbasiert weiter.")
                 self.failed = True
+                self.status = f"KI-Prüfung fehlgeschlagen nach {self.checked} Einträgen: {str(exc)[:160]}"
                 break
             except (ValueError, KeyError, TypeError) as exc:
                 print(f"KI-Antwort nicht lesbar ({exc}), dieser Block bleibt regelbasiert.")
@@ -108,7 +116,10 @@ class Checker:
                 idx = r.get("id", j) if isinstance(r, dict) else j
                 if isinstance(r, dict) and isinstance(idx, int) and 0 <= idx < len(chunk):
                     results[start + idx] = r
+            self.checked = sum(1 for x in results if x)
             print(f"  KI: {min(start + self.batch, len(items))}/{len(items)} geprüft")
+        if not self.failed:
+            self.status = f"KI-Prüfung: {self.checked} von {len(items)} Kandidaten geprüft ({self.model})"
         return results
 
 

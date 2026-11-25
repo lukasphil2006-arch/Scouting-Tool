@@ -124,6 +124,7 @@ def save(path: str, data: dict, meta: dict):
         ("Kontaktstatus / Notiz", "Diese Spalten gehören euch und werden bei späteren Läufen nicht überschrieben."),
         ("Kein Startup?", "Domain in blocklist.txt (Repo) eintragen – dann taucht sie nie wieder auf."),
         ("Datenschutz", "Nur Firmendaten und generische Firmenadressen. Intern behandeln, nicht ungefiltert weitergeben."),
+        ("KI-Prüfung", meta.get("ki", "")),
         ("Löschfrist", f'Einträge, die länger als {meta["retention"]} Tage nicht mehr gesehen wurden, werden gelöscht.'),
     ]:
         info.append(list(line))

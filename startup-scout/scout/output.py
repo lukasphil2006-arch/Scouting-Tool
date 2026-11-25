@@ -136,5 +136,7 @@ def mail_text(focus, other, review, master, meta, recs=()):
     if review:
         out += [f"{len(review)} Einträge waren nicht eindeutig (z. B. Netzwerk, Förderer oder Konzern) und stehen nur im "
                 "Excel-Blatt 'Prüfen'.", ""]
+    if meta.get("ki"):
+        out += [meta["ki"], ""]
     out += ["Hinweis: Nur Firmendaten und generische Adressen. Bitte intern behandeln und nicht ungefiltert weitergeben."]
     return "\n".join(out)

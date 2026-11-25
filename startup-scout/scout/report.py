@@ -106,6 +106,7 @@ def write_html(path: str, master_data: dict, meta: dict, today_iso: str, cfg: di
             .replace("{{TITLE}}", "Startup-Scouting")
             .replace("{{RUN_DATE}}", html.escape(meta["date"]))
             .replace("{{RETENTION}}", str(meta["retention"]))
+            .replace("{{KI}}", html.escape(meta.get("ki", "")))
             .replace("{{REGIONS}}", json.dumps(region_tree(cfg["regions"]), ensure_ascii=False))
             .replace("{{PHASES}}", json.dumps([p["name"] for p in reversed(cfg["phases"])] + ["unbekannt"], ensure_ascii=False))
             .replace("{{DATA}}", data))

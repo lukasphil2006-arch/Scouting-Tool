@@ -136,7 +136,8 @@ def main(argv=None):
           f"({dropped} wegen Löschfrist entfernt)")
 
     # 4) Ausgabe: interaktiver HTML-Bericht + Excel-Gesamtliste (+ optional PDF)
-    meta = {"date": today.strftime("%d.%m.%Y"), "checked": len(results), "retention": retention}
+    meta = {"date": today.strftime("%d.%m.%Y"), "checked": len(results), "retention": retention, "ki": checker.status}
+    print(checker.status)
     base = os.path.join(args.out, f"startup-scouting_{today.isoformat()}")
     html_path, xlsx_path = base + ".html", base + "_gesamtliste.xlsx"
     recs = report.write_html(html_path, master, meta, today.isoformat(), cfg)
