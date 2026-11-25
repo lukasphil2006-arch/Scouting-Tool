@@ -16,6 +16,10 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "1ctec.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "27g.space": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -52,6 +56,10 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "7education.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "90green.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -80,7 +88,15 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "aachenohnelimits.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "aatral-esp.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aav.space": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -180,7 +196,23 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "aerial-comm.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aerial-tools.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "aerialagritech.ie": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aerisgate.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aerix-systems.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -188,7 +220,23 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "aerobeam.ie": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aeroficial.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "aerones.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aerospec.ch:443": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "aevo-cas.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -196,9 +244,45 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "agineo.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "agit.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "agora-innovation.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "agrario-energy.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "agreenculture.fr": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "agribora.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "agrista.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "agrosync.io": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "agtuall.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aguila.fr": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "ahead.fraunhofer.de": {
    "first_seen": "2026-11-25",
@@ -208,7 +292,59 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "ahyres.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "aikidotechnologies.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aikospace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ailos-robotics.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "aimethods.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "airborneprojects.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "airdodge.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airelectronics.es": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airgloss.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airmems.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "airmo.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airmyne.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airocollect.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "airplate.dk": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -216,9 +352,29 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "aithra.fr": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "aixacct.com": {
    "first_seen": "2026-11-25",
    "status": "delivered"
+  },
+  "aixhibit.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aixitem.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "aixo.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aixpedit.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "aixtec-components.de": {
    "first_seen": "2026-11-25",
@@ -228,7 +384,83 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "ajuma.eu": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "akidaia.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "akilaris.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aktyvusphotonics.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "alabon.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alatyr.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alberami.it": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "albert-ing.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aldoria.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aleego.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aleriontec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "alga.bio": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "all4ip.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "allocator.one": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alloyadditive.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "allspace.compan": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "allunderground.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alongwave.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alpha-impulsion.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "alphaedge.eu": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -236,13 +468,25 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "altar.digita": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "alteva.tech": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "ambasat.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "ambihome.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "ameliaspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "amepa.de": {
    "first_seen": "2026-11-25",
@@ -256,7 +500,51 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "amtas.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "anavs.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "andromach.space": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "angely.ai": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "angsa-robotics.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "annwen.cymru": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "anotherearth.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "anratechnologies.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "anybotics.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "anyever.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "anywaves.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "anzenengineering.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -264,17 +552,113 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "aperiospace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "apex-signal.tech": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "apheros.ch": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "api.whatsapp.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "apisprotect.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "apo-gee.tech": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "app.collaeb.io": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "aprtec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aquaguardtechnologies.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "ar-giri.com": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "arcadynamics.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arceon.nl": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "archai.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "archangelautonomy.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "archi-method.ch": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "archimede.world": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arcos.eu": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "arcticspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ariadne.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arkadiaspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "arkaisolutions.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arkenlabs.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arkion.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "armor-arsenal.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arrib.es": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "arrive-mobility.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "arti-robots.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "arveum.ai": {
    "first_seen": "2026-11-25",
@@ -284,7 +668,63 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "ascendbeyond.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ascento.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "aseag.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "askearth.space": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "aspace.compan": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "aspiaspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aspida.global": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "asteriotech.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astradentium.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "astradyne.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astraea-marine.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astrait.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astralabs.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "astraspec.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astrionics.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -292,13 +732,97 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "astrofood.be": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astrolayers.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "astronautin.net": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "astronsystems.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "astrotectonic.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "asynchronics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "atla.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "atlant3d.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "atlas-aero.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "atlas.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "atmake.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "atmeto.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "atmosphere.aero": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "attdevices.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "attestis.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "audiocure.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "auditone.io": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "augmentedcampus.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "augmenterra.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "auguraspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "augusta-space.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "auravant.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "aurorapt.space": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "auth.fundrbird.com": {
    "first_seen": "2026-11-25",
@@ -308,19 +832,107 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "autonautusv.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "autonoma-solutions.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "autonomiq.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "auxsys.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "auyan.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "avantium.com": {
    "first_seen": "2026-11-25",
    "status": "delivered"
+  },
+  "avelios.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "avesreality.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "aviant.no": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "avisense.ai": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "avoin.org": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "avv.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "avy.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "awa-gmbh.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "awake.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "axteraerospace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "azulfy.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "b2-space.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "b5tec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "babayte.org": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "baetes.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "balticorbitalservices.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "bareways.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "barrierefrei-im-kopf.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "battswap.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bauer-kirch.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -328,13 +940,149 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "bctsoftware.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "beel.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "beesandbears.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "beetlefortech.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "begeca.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bennamann.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bentekk.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "besthealth4u.pt": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "betadynamiq.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "betriangroup.cz": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "bettersoil.info": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "bigterra.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "binderly.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "biodrone.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "biograil.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "biomassets.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "biomede.fr": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "bioorbit.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "biordico.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "biota.space": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "biovox.system": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "birchbiosciences.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "birdshades.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bitpetgame.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "bitrezus.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "blackshore.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blackwave.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blickfeld.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blitzandsmart.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "blog.davidkaye.co": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "blue-neptune.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blue-thread.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bluecover.pt": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blueorbit.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "blueplanetecosystems.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bluezc.org": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "bluumbio.com": {
    "first_seen": "2026-11-25",
@@ -348,17 +1096,65 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "bodymonitor.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "boesl-med.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "boldrobotics.pt": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "bookface-images.s3.amazonaws.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "bopen.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "boscalia.org": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "bostonmetal.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "botasys.com": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "botronics.be": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "bound.co": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "bound4blue.com": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "bradford-space.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "brainlab.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "breaby.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "broadbit.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "brondell.com": {
    "first_seen": "2026-11-25",
@@ -371,6 +1167,14 @@
   "bsky.app": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "btry.ch": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "buildingradar.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "buildscience.com": {
    "first_seen": "2026-11-25",
@@ -388,11 +1192,75 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "buzzard.camera": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bwi.earth": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "byte2bitinsight.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "c-lecta.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "c-stream.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "c16bio.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "cadami.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cae.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "caius.gr": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "canarddrones.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "canopi.cash": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "capacity.at": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "capmo.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "capra.ooo": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "capsule-space.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "captiks.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "carbon-waters.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "carbonact.farm": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
@@ -412,7 +1280,103 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "carbonkeepers.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "cargokite.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cargosteps.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "caritas-ac.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "carpus.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cassio-p.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "catchwise.no": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "cavicore.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cdxi.gr": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cedrion.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "celemation.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "celesse.space": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "celestiaenergy.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "celestialspacetechnologies.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cellgrid.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "celloreon.de": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "celtonn.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "celus.io": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cense-analytics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "centralevalutativa.it": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cerebrihealth.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cereretech.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cetrabase.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cevotec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "chargemadegood.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -420,9 +1384,113 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "charisma-tec.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "chexs.dk": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "chioaachencampus.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "chirplight.ch": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "christianemichulitz.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cintoo3d.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "circenav.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "circuitsintegrated.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cityoo.tech": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "clearsky.vision": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "clearspace.today": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cleverhive.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "climatescope.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cloudeo.group": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "cloudsignals.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cm-one.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cmpcomposites.fr": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "coactum.ch": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "cobot.me": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "codecompany.se": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cognitive-design-systems.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cognitx.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cohersense.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "coinvex.org": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "coldxray.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "collectivecrunch.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "colombosky.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "commercetools.com": {
    "first_seen": "2026-11-25",
@@ -432,9 +1500,45 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "commsolid.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "comnovo.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "companisto.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "compositence.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "comppair.ch": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "computomics.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "condenzero.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "connect-robotics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "connect.finleap.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "contagt.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "conweaver.com": {
    "first_seen": "2026-11-25",
@@ -444,11 +1548,91 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "coolx.earth": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "coperniq.io": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "corac.cz": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "coramaps.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "coreldraw.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "corintis.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cornerstoneoxford.co.uk": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "coros-space.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "correntics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cosmicwaterleaks.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cosy.green": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "covadonga.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cphtrackers.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "crealytics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "croowy.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cropom.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cropup.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "crover.tech": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "crystalspace.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cshark.it": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cstrider.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cuciniale.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -456,7 +1640,79 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "curf.be": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cybele.space": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "cyclebee.app": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cysec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "cystellar.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "d3seeron.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "daisy.inc": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "daisytuner.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dale-group.fr": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "dalmasystems.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "danadynamics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "danishgraphene.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "danusports.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dapcom.es": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dares.tech": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "dartsat.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "dashboard.powerx.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dataionics.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "datamachineintelligence.eu": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -464,7 +1720,127 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "datarella.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "datasoft-embedded.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "datavlab.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "datelite.hu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "davos-instruments.ch": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dbspace.techno": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "dcubed.space": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dealroom.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "decentriq.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ded-services.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "deep-care.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "deepforestry.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "deepplanet.ai": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "deepspaceenergy.space": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "deinwerk-heinsberg.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "delfox.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "delox-global.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "deltabiosciences.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "deltaorbit.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "deltavision.space": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "deplotic.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "depotcharge.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "descartesunderwriting.com:443": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "detektia.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "deutsche-bank.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "devanthro.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "devolo.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dhruvaspace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "diakonie-aachen.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "digatron.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "digifarm.io": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -472,7 +1848,31 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "diginove.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "digital-earth-solutions.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "digitallumens.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "digitalurban.place": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dilifyhq.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dipteron.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "diramics.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -480,11 +1880,111 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "dlteo.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dnair.earth": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "docsinclouds.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "doctec.at": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "dorbit.space": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "dphispace.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dreso.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "driftnoise.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "drk.ac": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "drohnenscan.at": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dromni.eu": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "dromos.networ": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "drone-hopper.es": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "droneconsultantsireland.ie": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "droneharmony.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dronerescue.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dronetag.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "dronex-360.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "dsa.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dueren.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "duramea.com": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
   "duranium.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dycsyt.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dymension.systems": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "dymium.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "e-ray.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "e-stratos.eu": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -492,15 +1992,47 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "earthbanc.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ease.systems": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "eatops.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ecotec-online.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "edgeengineers.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "efre.nrw": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
+  },
+  "eggersmann-group.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "egym.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "elbic.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "electrificat.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "elevateone.ai": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -520,11 +2052,43 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "enshape.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "entelios.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "enveritas.org": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "envira.dk": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "envirotrust.eu": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "eodyn.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "eonsight.webflow.io": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "eura-ag.com": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
   "europeaninternetventures.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "eventac.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -533,6 +2097,22 @@
    "status": "rejected"
   },
   "evoxx.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "exkulpa.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "expireddomains.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "expleto.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "exploration.space": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -548,15 +2128,51 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "farmscore.io": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "feeds.feedburner.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "ferchau.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "finches.ai": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "flowtify.de": {
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
   "fly.vc": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "fodjan.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "foodfor.ch": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "formitas.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "fr.disaitek.ai": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "frankdruckmedien.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "frankenne.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -592,9 +2208,17 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "gebra-it.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "genecis.co": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "geotrend.fr": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "gestigon.com": {
    "first_seen": "2026-11-25",
@@ -608,6 +2232,14 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "geva-group.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "giftgruen.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "givemetap.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -618,11 +2250,15 @@
   },
   "globusmedical.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "glowenergy.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "godemi.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "goodheat.energy": {
    "first_seen": "2026-11-25",
@@ -636,6 +2272,10 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "greenativity.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "greenventory.de": {
    "first_seen": "2026-11-25",
    "status": "delivered"
@@ -644,7 +2284,31 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "group.vattenfall.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "gruen.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "grunenthal.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "gypsilon.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "habitushealth.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "hairsense.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "haugg-group.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -664,9 +2328,21 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "heerlen.nl": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "hegenscheidt.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "heimdalccu.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "heinen-automation.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "helmholtz-entrepreneurship.de": {
    "first_seen": "2026-11-25",
@@ -684,6 +2360,14 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "hio-fitting.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "hirebotiq.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "htgf.getro.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -692,11 +2376,27 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "hygo.ag": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "hylight.aero": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "i3membrane.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "ibschwietering.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "imicrobes.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "impossiblemetals.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -712,6 +2412,14 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "innotrade.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "inseeq.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "instacrops.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -720,9 +2428,41 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "integer-net.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "interactive-pioneers.de": {
    "first_seen": "2026-11-25",
    "status": "delivered"
+  },
+  "intravis.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "iste-group.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "ita-academy.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "ivu.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "jacob.busine": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "jaipurrobotics.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "janssencosmeticsmidwest.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "jbinstruments.de": {
    "first_seen": "2026-11-25",
@@ -732,11 +2472,23 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "jht.eu": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "jobleads.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "johnsonelectric.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "juicymarbles.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "kamanjola.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -744,9 +2496,25 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "karo-electronics.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "kebony.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "kep3.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "kimeta.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "kisters.de ": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "kit-forge.de": {
    "first_seen": "2026-11-25",
@@ -760,23 +2528,63 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "kiutra.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "kiwigrid.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "koala.nrw": {
    "first_seen": "2026-11-25",
    "status": "delivered"
+  },
+  "koeln.business": {
+   "first_seen": "2026-11-25",
+   "status": "review"
+  },
+  "kohl.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "kontem.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "kontext.security": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "kununu.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "landmarken.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "lanzatech.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "lebenshilfe-aachen.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "led-ex.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "leibniz-gemeinschaft.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "lf-enviroconsulting.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "limata.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
@@ -796,13 +2604,37 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "lnkd.in": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "lockboxsystem.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "lueschen-peters.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "luisenhospital.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "luphos.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "m3connect.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "magazino.eu": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "mahr-heizung.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "mailchi.mp": {
    "first_seen": "2026-11-25",
@@ -811,6 +2643,10 @@
   "maplematerials.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "mathes.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "maxplanckschools.de": {
    "first_seen": "2026-11-25",
@@ -832,6 +2668,10 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "mehr-fuehren.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "membershub.cleantech.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -840,7 +2680,19 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "metek-mtk.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "meteoric.earth": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "middlepeakmedical.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "mincell.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
@@ -856,6 +2708,14 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "mobilversichert.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "moceansense.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "moingroup.de": {
    "first_seen": "2026-11-25",
    "status": "delivered"
@@ -868,15 +2728,43 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "moqo.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "moxionpower.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "multiphoton.net": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "mva-weisweiler.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "naion.tech": {
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "nesseler.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "netaachen.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "networkocean.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "neuman-esser.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "neumann-schmeer.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -904,6 +2792,14 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "notion-systems.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "novaspraytec.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "novisto.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -920,15 +2816,27 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "osborneclarke.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "ostara.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "ostbelgienlive.be": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "osteolabs.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "outcomet.app": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "outoftheframe.art": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -940,6 +2848,26 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "pa.heilein.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "pace.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "paces.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "paperplane-productions.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "pc-ins.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "perfekto.mx": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -947,6 +2875,14 @@
   "performanat.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "peter-krings.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "ph-mechanik.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "phasebiolabs.com": {
    "first_seen": "2026-11-25",
@@ -956,15 +2892,35 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "pina.earth": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "planet-a-foods.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "plastformance.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "platform.aachen.digital": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "playbk.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "plesnik.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "plumefinder.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "polytech.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -980,13 +2936,29 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "proidee.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "propertybase.lwolf.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "proterra.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "provinzial.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "pse.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "pulsar-photonics.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "pv2plus.com": {
    "first_seen": "2026-11-25",
@@ -1000,6 +2972,18 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "radioopt.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "rampcommand.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "rapidpipeline.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "raptormaps.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -1008,9 +2992,21 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "regioit.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "regionaachen.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "relae.co": {
    "first_seen": "2026-11-25",
    "status": "delivered"
+  },
+  "relaix.net": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "remoracarbon.com": {
    "first_seen": "2026-11-25",
@@ -1028,7 +3024,35 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "rhenania-lwl.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "rhise.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "rhp.at": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "rigontec.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "rimba.ai": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "rise-reforming.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "roos-it.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "rs-nc.rohde-schwarz.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1048,6 +3072,42 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "sablono.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "samp.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "sar.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "saymotive.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "schneider-kleinermann.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "school.digitale-leute.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "schumacher.ac": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "schwermetall.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "sciencepark.at": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "seabound.co": {
    "first_seen": "2026-11-25",
    "status": "rejected"
@@ -1056,13 +3116,33 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "shshops.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "silurian.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "sinai.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "sitegeist-robotics.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "skeletontech.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "sms-stiewi.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "softgarden.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
   },
   "solares-bauen.de": {
    "first_seen": "2026-11-25",
@@ -1076,11 +3156,19 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "solbilog.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "solugen.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "sopat.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "sorcerer.earth": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1092,11 +3180,39 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "sozietaet-libeaux.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "spacedebris.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "spacepilot.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "spaceport.pt": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "sparkasse-aachen.de": {
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
   "speakingstage.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "spotlitedata.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "st-gereon.info": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "staedteregion-aachen.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1120,7 +3236,23 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "stb-frings.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "stepintomore.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "steuerberaten.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "stimos.netlify.app": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "stolberg.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1136,15 +3268,31 @@
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
+  "sunhill-technologies.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
   "surflabx.com": {
    "first_seen": "2026-11-25",
-   "status": "rejected"
+   "status": "delivered"
   },
   "survey.typeform.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "svanteinc.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "symtavision.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "synapticon.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "syte.io": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1156,7 +3304,39 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "talbot-services.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tech11.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tekkr.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "telerik.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tellus-ai.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "tempraskin.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tenpal.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "terrawater.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tetys-plus.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1164,11 +3344,27 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "thealttex.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "thebluedot.co": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "thisisheartwork.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "threads.net": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "threedy.io": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "till-tech.com": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
@@ -1184,9 +3380,25 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "trustnxt.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tryoctapulse.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "tweezr.io": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
   "twitter.de": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
+  },
+  "ukdeos.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
   },
   "uniki.de": {
    "first_seen": "2026-11-25",
@@ -1200,7 +3412,27 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "usetoday.io": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "valder.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "valensina-gruppe.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "validere.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "vemac.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "veridue.ai": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1224,11 +3456,27 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "visualverse.de": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "visumotion.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "vivorio.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "vogt-druck.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "volksbank-im-westen.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "volticshipping.com": {
    "first_seen": "2026-11-25",
    "status": "delivered"
   },
@@ -1240,11 +3488,23 @@
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
+  "wandsolar.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "waterplan.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
   "wattvision.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "waywise.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "werbewirksam-ac.de": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   },
@@ -1264,6 +3524,10 @@
    "first_seen": "2026-11-25",
    "status": "unreachable"
   },
+  "wochenspiegellive.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
   "worldfund-staging-2023.webflow.io": {
    "first_seen": "2026-11-25",
    "status": "unreachable"
@@ -1279,6 +3543,10 @@
   "xylem.com:443": {
    "first_seen": "2026-11-25",
    "status": "rejected"
+  },
+  "yara.zim-plant-technology.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
   },
   "yoast.com": {
    "first_seen": "2026-11-25",
@@ -1297,6 +3565,10 @@
    "status": "rejected"
   },
   "zoho.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "zondahome.com": {
    "first_seen": "2026-11-25",
    "status": "rejected"
   }
