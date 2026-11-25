@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from .net import domain_of, host_only
+from .startup_check import founded_fallback
 
 LEGAL_PAGE = re.compile(r"impressum|imprint|legal[- ]?notice|kontakt|contact", re.I)
 ABOUT_PAGE = re.compile(r"über[- ]?uns|ueber[- ]?uns|about|mission|unternehmen|company", re.I)
@@ -125,6 +126,10 @@ def analyze_site(fetcher, url: str, cfg: dict, name_hint: str = ""):
             if 1950 <= y <= dt.date.today().year:
                 founded = y
                 break
+    if founded is None:
+        y = founded_fallback(scan)
+        if y and 1900 <= y <= dt.date.today().year:
+            founded = y
 
     plz = city = ""
     m = PLZ_RE.search(legal_text) or PLZ_RE.search(body_text)
@@ -139,6 +144,6 @@ def analyze_site(fetcher, url: str, cfg: dict, name_hint: str = ""):
 
     return {
         "name": name[:80], "url": final_url, "domain": domain, "description": description or headings[:200],
-        "text": all_text, "emails": emails, "legal_page": legal_page_url or final_url,
+        "text": all_text, "legal_text": legal_text[:8000], "emails": emails, "legal_page": legal_page_url or final_url,
         "founded": founded, "plz": plz, "city": city, "legal_form": legal_form,
     }

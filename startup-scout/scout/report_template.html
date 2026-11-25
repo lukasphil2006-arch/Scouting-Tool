@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} – {{RUN_DATE}}</title>
+<style>
+  :root {
+    --accent: #1f6f5c;          /* Hauptfarbe – hier SUV-Brandfarbe eintragen */
+    --bg: #f6f6f3; --card: #fff; --text: #1d1d1b; --muted: #6b6b66; --line: #e2e2dc;
+    --greentech: #2e8b57; --impact: #d9822b; --deeptech: #3b5bdb; --weitere: #8a8a84;
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+  header { background: var(--accent); color: #fff; padding: 28px 32px 22px; }
+  header h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -.01em; }
+  header p { margin: 0; opacity: .85; }
+  .stats { display: flex; gap: 28px; margin-top: 16px; flex-wrap: wrap; }
+  .stats b { display: block; font-size: 24px; }
+  .stats span { font-size: 13px; opacity: .85; }
+
+  .controls { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line);
+              padding: 14px 32px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { border: 1.5px solid var(--c, var(--line)); color: var(--c, var(--text)); background: #fff;
+          border-radius: 999px; padding: 5px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+  .chip.on { background: var(--c, var(--text)); color: #fff; }
+  .chip .n { opacity: .7; margin-left: 4px; font-size: 12px; }
+  input[type=search], select { font: inherit; font-size: 14px; padding: 6px 10px; border: 1px solid var(--line);
+          border-radius: 8px; background: #fff; }
+  input[type=search] { min-width: 220px; flex: 1; max-width: 360px; }
+  label.toggle { font-size: 14px; display: flex; gap: 6px; align-items: center; cursor: pointer; }
+  .btn { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line);
+         background: #fff; cursor: pointer; }
+  .btn:hover { border-color: var(--accent); }
+  .count { font-size: 14px; color: var(--muted); margin-left: auto; }
+
+  main { padding: 22px 32px 48px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
+          display: flex; flex-direction: column; gap: 10px; border-top: 4px solid var(--c); }
+  .card h2 { margin: 0; font-size: 18px; display: flex; gap: 8px; align-items: baseline; }
+  .badge { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; padding: 2px 7px;
+           border-radius: 5px; background: var(--c); color: #fff; }
+  .badge.new { background: #e03131; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .meta { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13px; }
+  .meta dt { color: var(--muted); }
+  .meta dd { margin: 0; }
+  .desc { margin: 0; font-size: 14px; color: #3a3a37; }
+  .links { margin-top: auto; display: flex; gap: 14px; font-size: 14px; flex-wrap: wrap; }
+  .links a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .links a:hover { text-decoration: underline; }
+  .src { font-size: 12px; color: var(--muted); }
+  .recs { padding: 22px 32px 6px; }
+  .recs h2 { margin: 0 0 4px; font-size: 19px; }
+  .recs > p { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+  .recs ol { list-style: none; margin: 0; padding: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+  .recs li { display: grid; grid-template-columns: 34px minmax(160px, 1.1fr) 2fr auto; gap: 6px 14px; align-items: center;
+             padding: 11px 16px; border-top: 1px solid var(--line); }
+  .recs li:first-child { border-top: 0; }
+  .recs .no { font-weight: 700; font-size: 18px; color: var(--accent); }
+  .recs .nm { font-weight: 600; cursor: pointer; }
+  .recs .nm:hover { color: var(--accent); text-decoration: underline; }
+  .recs .why { display: flex; gap: 5px; flex-wrap: wrap; }
+  .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #eef2ef; color: #33423a; }
+  .pill.prog { background: var(--accent); color: #fff; font-weight: 600; }
+  .recs .lk { display: flex; gap: 12px; font-size: 13px; white-space: nowrap; }
+  .recs .lk a { color: var(--accent); font-weight: 600; text-decoration: none; }
+  .badge.star { background: #f0b429; color: #3d2b00; }
+  .card.flash { outline: 3px solid #f0b429; }
+  @media (max-width: 760px) { .recs li { grid-template-columns: 28px 1fr; } .recs .why, .recs .lk { grid-column: 2; } .recs { padding: 18px 16px 4px; } }
+  .empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 60px 0; }
+  footer { padding: 0 32px 32px; font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 640px) { header, .controls, main, footer { padding-left: 16px; padding-right: 16px; } }
+  @media print {
+    .controls { display: none; }
+    body { background: #fff; }
+    main { grid-template-columns: 1fr 1fr; }
+    .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>{{TITLE}}</h1>
+  <p>Stand {{RUN_DATE}} · alle Startups der letzten {{RETENTION}} Tage, neue Treffer sind markiert</p>
+  <div class="stats" id="stats"></div>
+</header>
+
+<section class="recs" id="recsBox" hidden>
+  <h2>Empfehlungen fürs Startup Village</h2>
+  <p>Die Startups, die am besten passen – nach Region, Phase, Thema und Sektor. Gewichtung in config.yaml unter „empfehlungen“.</p>
+  <ol id="recs"></ol>
+</section>
+
+<div class="controls">
+  <div class="chips" id="katChips"></div>
+  <input type="search" id="q" placeholder="Suche: Name, Sektor, Ort, Stichwort …">
+  <select id="phase"><option value="">Alle Phasen</option></select>
+  <select id="ort"><option value="">Alle Regionen</option></select>
+  <select id="jahr"><option value="">Jedes Gründungsjahr</option></select>
+  <select id="sort">
+    <option value="neu">Neueste zuerst</option>
+    <option value="name">Name A–Z</option>
+    <option value="jahr">Gründungsjahr ↓</option>
+    <option value="fit">Passung Startup Village</option>
+    <option value="score">Themen-Score</option>
+  </select>
+  <label class="toggle"><input type="checkbox" id="onlyNew"> nur neue</label>
+  <button class="btn" id="csv">Auswahl als CSV</button>
+  <button class="btn" onclick="window.print()">Drucken / PDF</button>
+  <span class="count" id="count"></span>
+</div>
+
+<main id="list"></main>
+<footer>Automatisch erstellt vom Startup-Scout. Nur Firmendaten und generische Firmenadressen – bitte intern behandeln und nicht ungefiltert weitergeben. Alle Einträge inkl. unsicherer Fälle stehen in der angehängten Excel-Gesamtliste.</footer>
+
+<script>
+const DATA = {{DATA}};
+const KATS = { Greentech: "--greentech", Impact: "--impact", Deeptech: "--deeptech", Weitere: "--weitere" };
+const state = { kats: new Set(["Greentech", "Impact", "Deeptech"]), q: "", phase: "", ort: "", jahr: "", onlyNew: false, sort: "neu" };
+const $ = id => document.getElementById(id);
+const colorOf = k => `var(${KATS[k] || "--weitere"})`;
+const el = (tag, props = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === "style") n.style.cssText = v; else if (k in n) n[k] = v; else n.setAttribute(k, v);
+  }
+  kids.flat().forEach(c => c != null && n.append(c));
+  return n;
+};
+const catsOf = d => [d.kategorie || "Weitere", ...String(d.themen || "").split(",").map(t => t.trim()).filter(Boolean)];
+const uniq = key => [...new Set(DATA.map(d => d[key]).filter(Boolean))].sort();
+const url = u => !u ? "" : (/^https?:\/\//i.test(u) ? u : "https://" + u);
+
+// Statistik
+const nNew = DATA.filter(d => d.neu).length;
+$("stats").append(
+  el("div", {}, el("b", { textContent: DATA.length }), el("span", { textContent: "Startups gesamt" })),
+  el("div", {}, el("b", { textContent: nNew }), el("span", { textContent: "neu seit letzter Liste" })),
+  ...Object.keys(KATS).map(k => el("div", {}, el("b", { textContent: DATA.filter(d => (d.kategorie || "Weitere") === k).length }), el("span", { textContent: k })))
+);
+
+// Kategorie-Chips (Weitere ist der zweite, schaltbare Filter)
+for (const k of Object.keys(KATS)) {
+  const n = DATA.filter(d => catsOf(d).includes(k)).length;
+  const b = el("button", { className: "chip" + (state.kats.has(k) ? " on" : ""), style: `--c:${colorOf(k)}` }, k, el("span", { className: "n", textContent: n }));
+  b.onclick = () => { state.kats.has(k) ? state.kats.delete(k) : state.kats.add(k); b.classList.toggle("on"); render(); };
+  $("katChips").append(b);
+}
+uniq("phase").forEach(v => $("phase").append(el("option", { value: v, textContent: v })));
+uniq("region").forEach(v => $("ort").append(el("option", { value: v, textContent: v })));
+[...new Set(DATA.map(d => +d.gegruendet || 0).filter(Boolean))].sort((a, b) => b - a)
+  .forEach(v => $("jahr").append(el("option", { value: v, textContent: "ab " + v })));
+
+$("q").oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
+$("phase").onchange = e => { state.phase = e.target.value; render(); };
+$("ort").onchange = e => { state.ort = e.target.value; render(); };
+$("jahr").onchange = e => { state.jahr = e.target.value; render(); };
+$("sort").onchange = e => { state.sort = e.target.value; render(); };
+$("onlyNew").onchange = e => { state.onlyNew = e.target.checked; render(); };
+
+function filtered() {
+  const r = DATA.filter(d =>
+    catsOf(d).some(c => state.kats.has(c)) &&
+    (!state.phase || d.phase === state.phase) &&
+    (!state.ort || d.region === state.ort) &&
+    (!state.jahr || (+d.gegruendet || 0) >= +state.jahr) &&
+    (!state.onlyNew || d.neu) &&
+    (!state.q || [d.name, d.sektor, d.ort, d.region, d.beschreibung, d.kategorie, d.themen, d.quelle].join(" ").toLowerCase().includes(state.q))
+  );
+  const by = {
+    fit: (a, b) => (b.fit || 0) - (a.fit || 0) || (+b.score || 0) - (+a.score || 0),
+    score: (a, b) => (+b.score || 0) - (+a.score || 0),
+    name: (a, b) => (a.name || "").localeCompare(b.name || "", "de"),
+    jahr: (a, b) => (+b.gegruendet || 0) - (+a.gegruendet || 0),
+    neu: (a, b) => (b.neu - a.neu) || String(b.erstmals).localeCompare(String(a.erstmals)) || (+b.score || 0) - (+a.score || 0),
+  };
+  return r.sort(by[state.sort]);
+}
+
+function card(d) {
+  const k = d.kategorie || "Weitere";
+  const themen = String(d.themen || "").split(",").map(t => t.trim()).filter(t => t && t !== k);
+  const ort = [d.ort, d.region && d.region !== d.ort ? d.region : ""].filter(Boolean).join(" · ");
+  const meta = [["Sektor", d.sektor], ["Phase", d.phase !== "unbekannt" ? d.phase : ""], ["Gegründet", d.gegruendet],
+                ["Standort", ort], ["Rechtsform", d.rechtsform], ["Passt zu", d.programm]]
+    .filter(([, v]) => v).flatMap(([a, b]) => [el("dt", { textContent: a }), el("dd", { textContent: b })]);
+  return el("article", { className: "card", id: "c-" + d.domain, style: `--c:${colorOf(k)}` },
+    el("h2", {}, d.name || "–", d.neu ? el("span", { className: "badge new", textContent: "neu" }) : null,
+      d.empfohlen ? el("span", { className: "badge star", textContent: "★ Empfehlung" }) : null),
+    el("div", { className: "tags" }, el("span", { className: "badge", textContent: k }),
+      themen.map(t => el("span", { className: "badge", style: `--c:${colorOf(t)}`, textContent: t }))),
+    el("dl", { className: "meta" }, meta),
+    d.beschreibung ? el("p", { className: "desc", textContent: d.beschreibung }) : null,
+    el("div", { className: "links" },
+      d.url ? el("a", { href: url(d.url), target: "_blank", rel: "noopener", textContent: "Website ↗" }) : null,
+      d.email ? el("a", { href: "mailto:" + d.email, textContent: d.email })
+              : (d.impressum ? el("a", { href: url(d.impressum), target: "_blank", rel: "noopener", textContent: "Kontakt im Impressum ↗" }) : null)),
+    el("div", { className: "src", textContent: `Quelle: ${d.quelle || "–"} · gefunden ${d.erstmals || ""}` })
+  );
+}
+
+let current = [];
+function render() {
+  current = filtered();
+  $("list").replaceChildren(...(current.length ? current.map(card) : [el("div", { className: "empty", textContent: "Keine Startups für diese Filter." })]));
+  $("count").textContent = `${current.length} von ${DATA.length} angezeigt`;
+}
+
+$("csv").onclick = () => {
+  const cols = ["name", "kategorie", "themen", "sektor", "phase", "gegruendet", "ort", "region", "url", "email", "beschreibung", "quelle", "erstmals"];
+  const esc = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const csv = "﻿" + [cols.join(";"), ...current.map(d => cols.map(c => esc(d[c])).join(";"))].join("\r\n");
+  const a = el("a", { href: URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })), download: "startup-auswahl.csv" });
+  document.body.append(a); a.click(); a.remove();
+};
+
+function showCard(d) {
+  if (!state.kats.has(d.kategorie)) { state.kats.add(d.kategorie); [...$("katChips").children].forEach(b => { if (b.firstChild.textContent === d.kategorie) b.classList.add("on"); }); }
+  render();
+  const c = document.getElementById("c-" + d.domain);
+  if (c) { c.scrollIntoView({ behavior: "smooth", block: "center" }); c.classList.add("flash"); setTimeout(() => c.classList.remove("flash"), 1800); }
+}
+const recs = DATA.filter(d => d.empfohlen).sort((a, b) => a.empfohlen - b.empfohlen);
+if (recs.length) {
+  $("recsBox").hidden = false;
+  $("recs").append(...recs.map(d => {
+    const nm = el("span", { className: "nm", textContent: d.name }, d.neu ? el("span", { className: "badge new", textContent: "neu", style: "margin-left:6px" }) : null);
+    nm.onclick = () => showCard(d);
+    return el("li", {},
+      el("span", { className: "no", textContent: d.empfohlen }),
+      nm,
+      el("span", { className: "why" }, (d.programm ? [el("span", { className: "pill prog", textContent: d.programm })] : []),
+        (d.fit_gruende || []).map(g => el("span", { className: "pill", textContent: g }))),
+      el("span", { className: "lk" },
+        d.url ? el("a", { href: url(d.url), target: "_blank", rel: "noopener", textContent: "Website ↗" }) : null,
+        d.email ? el("a", { href: "mailto:" + d.email, textContent: "Mail" }) : null));
+  }));
+}
+
+render();
+</script>
+</body>
+</html>

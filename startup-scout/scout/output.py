@@ -1,10 +1,7 @@
-"""Ausgabe: übersichtliches PDF (zum Lesen) und einfache Excel (zum Filtern/Weiterverarbeiten)."""
+"""Ausgabe: optionales PDF und der Mailtext. HTML-Bericht: report.py, Excel-Gesamtliste: master.py."""
 import os
 from xml.sax.saxutils import escape
 
-from openpyxl import Workbook
-from openpyxl.styles import Alignment, Font, PatternFill
-from openpyxl.utils import get_column_letter
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
@@ -31,49 +28,6 @@ def _meta(r):
              f'gegründet {r["founded"]}' if r["founded"] else "", r["phase"] if r["phase"] != "unbekannt" else "",
              r["legal_form"]]
     return "  ·  ".join(p for p in parts if p)
-
-
-# ------------------------------------------------------------------ Excel (einfach)
-XLSX_COLUMNS = [("Bereich", 11), ("Name", 28), ("Website", 32), ("E-Mail (generisch)", 30), ("Themen", 18),
-                ("Sektor", 26), ("Standort", 20), ("Gegründet", 10), ("Phase", 20), ("Kurzbeschreibung", 70),
-                ("Quelle", 18)]
-
-
-def write_xlsx(path, focus, other, meta):
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Liste"
-    ws.append([c for c, _ in XLSX_COLUMNS])
-    for i, (_, w) in enumerate(XLSX_COLUMNS, 1):
-        ws.column_dimensions[get_column_letter(i)].width = w
-        c = ws.cell(row=1, column=i)
-        c.font, c.fill = Font(bold=True, color="FFFFFF"), PatternFill("solid", fgColor="2F6F4F")
-    for bereich, rows in (("Fokus", focus), ("Weitere", other)):
-        for r in rows:
-            ws.append([bereich, r["name"], r["url"], r["emails"][0] if r["emails"] else "(siehe Impressum)",
-                       _themes(r), ", ".join(r["sectors"]), f'{r["plz"]} {r["city"]}'.strip() or r["region"],
-                       r["founded"] or "", r["phase"], r["description"], r["source"]])
-    for row in ws.iter_rows(min_row=2):
-        for c in row:
-            c.alignment = Alignment(vertical="top", wrap_text=c.column == 10)
-        w = row[2]
-        if isinstance(w.value, str) and w.value.startswith("http"):
-            w.hyperlink, w.font = w.value, Font(color="0563C1", underline="single")
-    ws.freeze_panes = "C2"
-    ws.auto_filter.ref = ws.dimensions
-
-    info = wb.create_sheet("Info")
-    for l in [("Startup-Scouting", meta["date"]), ("Geprüfte neue Websites", meta["checked"]),
-              ("Datenschutz", "Nur Firmendaten und generische Firmenadressen. Bitte intern behandeln, nicht ungefiltert weitergeben."),
-              ("Löschfrist", f'Merkzettel (nur Domain + Datum) wird nach {meta["retention"]} Tagen gelöscht.'),
-              ("Widerspruch", "Wer nicht kontaktiert werden möchte: Domain in blocklist.txt eintragen.")]:
-        info.append(list(l))
-    info.column_dimensions["A"].width = 24
-    info.column_dimensions["B"].width = 110
-    for c in info["A"]:
-        c.font = Font(bold=True)
-    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    wb.save(path)
 
 
 # ------------------------------------------------------------------ PDF (schön)
@@ -165,13 +119,22 @@ def write_pdf(path, focus, other, meta):
     doc.build(story, onFirstPage=first, onLaterPages=later)
 
 
-def mail_text(focus, other, meta):
-    out = [f'Startup-Scouting vom {meta["date"]}',
-           f'{len(focus)} Treffer im Fokus (Greentech/Impact/Deeptech), {len(other)} weitere.',
-           "Im Anhang: PDF zum Lesen und Excel zum Filtern.", ""]
-    for r in focus[:8]:
-        out.append(f'- {r["name"]} ({_themes(r)}; {r["region"]}) – {r["url"]}')
-    if len(focus) > 8:
-        out.append(f"  … und {len(focus) - 8} weitere im PDF.")
-    out += ["", "Hinweis: Nur Firmendaten und generische Adressen. Bitte intern behandeln und nicht ungefiltert weitergeben."]
+def mail_text(focus, other, review, master, meta, recs=()):
+    out = [f'Startup-Scouting vom {meta["date"]}', "",
+           f'Neu in diesem Lauf: {len(focus)} Startups im Fokus (Greentech/Impact/Deeptech), {len(other)} weitere.',
+           f'Insgesamt in der Liste: {len(master["startups"])} Startups der letzten {meta["retention"]} Tage.', "",
+           "Im Anhang:",
+           "- startup-scouting_….html: im Browser öffnen (Doppelklick) – filtern nach Kategorie, Phase, Region,",
+           "  Gründungsjahr, Suche. Neue Treffer sind markiert. Funktioniert offline.",
+           "- …_gesamtliste.xlsx: Backup mit allen Infos, inkl. Blatt 'Prüfen' für unsichere Fälle.", ""]
+    if recs:
+        out.append("Empfehlungen fürs Startup Village:")
+        for d in recs:
+            prog = f' → {d["programm"]}' if d.get("programm") else ""
+            out.append(f'{d["empfohlen"]:>2}. {d["name"]} ({", ".join(d["fit_gruende"][:4])}){prog} – {d["url"]}')
+        out.append("")
+    if review:
+        out += [f"{len(review)} Einträge waren nicht eindeutig (z. B. Netzwerk, Förderer oder Konzern) und stehen nur im "
+                "Excel-Blatt 'Prüfen'.", ""]
+    out += ["Hinweis: Nur Firmendaten und generische Adressen. Bitte intern behandeln und nicht ungefiltert weitergeben."]
     return "\n".join(out)

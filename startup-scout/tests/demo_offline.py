@@ -38,6 +38,14 @@ Energiespeicher, erneuerbare Energien, Dekarbonisierung.</p><a href="/impressum.
 <body><h1>Social Impact</h1><p>Gegründet 2020. Gemeinwohl, Sustainable Development Goals. Pre-Seed.</p>
 <a href="/impressum.html">Impressum</a></body></html>""",
      "<html><body>SocialLift gGmbH, Marienplatz 1, 80331 München. Kontakt: jonas.k@sociallift-demo.example, info@sociallift-demo.example</body></html>"),
+    8106: ("Institut", """<html><head><title>Institut für Solare Systeme</title>
+<meta name="description" content="Forschung zu Photovoltaik und Wasserstoff."></head><body><h1>Spin-offs und Forschung</h1>
+<p>Gegründet 2019. Ausgründung, Photovoltaik, erneuerbare Energien, Wasserstoff, Pre-Seed.</p><a href="/impressum.html">Impressum</a></body></html>""",
+     "<html><body>Fraunhofer-Gesellschaft zur Förderung der angewandten Forschung e.V., Hansastr. 27c, 80686 München. info@institut-demo.example</body></html>"),
+    8107: ("Netzwerk", """<html><head><title>Greentech Hub Rheinland</title>
+<meta name="description" content="Wir unterstützen Startups aus Greentech und Cleantech."></head><body><h1>Unsere Startups</h1>
+<p>Gegründet 2021. Accelerator-Programm für Klimaschutz, Energiewende, Kreislaufwirtschaft. Seed-Runde.</p><a href="/impressum.html">Impressum</a></body></html>""",
+     "<html><body>Greentech Hub GmbH, Domstr. 1, 50667 Köln. kontakt@hub-demo.example</body></html>"),
 }
 
 FEED = """<?xml version="1.0"?><rss version="2.0"><channel><title>Demo</title>
@@ -81,6 +89,7 @@ def build():
         '<html><body><p>Mehr:</p><a href="http://localhost:8102/">Quantenwerk</a></body></html>')
     open(os.path.join(feed, "directory.html"), "w", encoding="utf-8").write(
         '<html><body><a href="http://localhost:8105/">SocialLift</a> <a href="http://localhost:8101/">Gruenstrom</a>'
+        ' <a href="http://localhost:8106/">Institut</a> <a href="http://localhost:8107/">Hub</a>'
         ' <a href="https://www.linkedin.com/x">LinkedIn</a></body></html>')
     open(os.path.join(feed, "list.json"), "w", encoding="utf-8").write(
         '{"items":[{"name":"Quantenwerk","website":"http://localhost:8102/"},{"name":"X","other":{"u":"http://localhost:8103/"}}]}')
@@ -98,7 +107,8 @@ def main():
     servers = [serve(8100, os.path.join(DEMO, "feed"))] + [serve(p, os.path.join(DEMO, f"s{p}")) for p in SITES]
     cfg = yaml.safe_load(open(os.path.join(ROOT, "config.yaml"), encoding="utf-8"))
     cfg["run"].update({"request_delay_s": 0, "state_file": os.path.join(DEMO, "state.json"),
-                       "blocklist_file": os.path.join(DEMO, "blocklist.txt"), "require_email_domain_match": False})
+                       "blocklist_file": os.path.join(DEMO, "blocklist.txt"), "require_email_domain_match": False,
+                       "master_file": os.path.join(DEMO, "gesamtliste.xlsx"), "page_links_limit": 80})
     cfg["sources"]["rss"] = [{"name": "Demo-Feed", "url": "http://localhost:8100/feed.xml"}]
     cfg["sources"]["pages"] = [{"name": "Demo-Verzeichnis", "url": "http://localhost:8100/directory.html"}]
     cfg["sources"]["json"] = [{"name": "Demo-JSON", "url": "http://localhost:8100/list.json", "list_path": "items", "website_field": "website"}]
@@ -114,6 +124,27 @@ def main():
     run(["--config", cfg_path, "--out", os.path.join(DEMO, "out2")])
     for s in servers:
         s.shutdown()
+    check(os.path.join(DEMO, "gesamtliste.xlsx"))
+
+
+def check(master_path):
+    """Prüft das Ergebnis: Institut raus, Netzwerk in "Prüfen", echte Startups in der Liste."""
+    from scout import master as ms
+    from scout.startup_check import domain_reason
+    data = ms.load(master_path)
+    names = {r["name"] for r in data["startups"].values()}
+    review = {r["name"] for r in data["review"].values()}
+    print("\nGesamtliste:", sorted(names), "| Prüfen:", sorted(review))
+    assert {"Gruenstrom Aachen", "Quantenwerk", "SocialLift"} <= names, names
+    assert not any("Institut" in n for n in names | review), "Institut hätte rausfliegen müssen"
+    assert any("Hub" in n for n in review), "Netzwerk hätte in 'Prüfen' landen müssen"
+    assert "AltBau AG" not in names
+    sc = yaml.safe_load(open(os.path.join(ROOT, "config.yaml"), encoding="utf-8"))["startup_check"]
+    for d in ["ise.fraunhofer.de", "kit.edu", "bmftr.bund.de", "sparkasse-aachen.de", "uni-koeln.de", "efre.nrw"]:
+        assert domain_reason(d, sc), d
+    for d in ["sunfire.de", "greenventory.de", "existence-startup.de", "naion.tech"]:
+        assert not domain_reason(d, sc), d
+    print("Alle Prüfungen bestanden.")
 
 
 if __name__ == "__main__":

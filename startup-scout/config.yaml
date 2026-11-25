@@ -4,14 +4,17 @@
 # ============================================================
 
 run:
-  max_focus: 25            # max. Einträge in der Liste "Fokus" (Greentech/Impact/Deeptech)
-  max_other: 10            # max. Einträge in der Liste "Weitere"
-  max_candidates: 300      # so viele neue Websites werden pro Lauf höchstens geprüft
+  max_focus: 150           # max. neue Einträge pro Lauf in "Fokus" (Greentech/Impact/Deeptech)
+  max_other: 60            # max. neue Einträge pro Lauf in "Weitere"
+  max_review: 60           # max. unsichere Einträge, die zum Prüfen in die Gesamtliste kommen
+  max_candidates: 600      # so viele neue Websites werden pro Lauf höchstens geprüft (600 ≈ 1,5 Std. Laufzeit)
   retention_days: 180      # nach dieser Zeit wird der Merkzettel (nur Domain + Datum) gelöscht
   request_delay_s: 2       # Pause zwischen Anfragen an dieselbe Website (höflich bleiben)
   max_item_age_days: 120   # nur News-Artikel der letzten X Tage auswerten
   state_file: data/state.json
   blocklist_file: blocklist.txt
+  master_file: data/gesamtliste.xlsx   # Backup: alle gelieferten Startups der letzten retention_days Tage
+  attach_pdf: false                    # zusätzlich das alte PDF anhängen (true/false)
   user_agent: "StartupScout/0.1 (Startup-Scouting; Kontakt: lukasphil2006@gmail.com)"   # <- eure echte Adresse eintragen!
   require_email_domain_match: true   # E-Mail muss zur Domain der Website passen
 
@@ -35,8 +38,8 @@ sources:
     - {name: "ESA BIC Startups",     url: "https://commercialisation.esa.int/wp-json/wp/v2/esa-startups?per_page=100", pages: 5, status: ungetestet}
 
   sitemaps:                # Portfolio-Profilseiten; pro Lauf wandert das gelesene Fenster weiter
-    - {name: "HTGF Portfolio",   url: "https://www.htgf.de/portfolio-sitemap.xml",  url_contains: "/portfolio/", max_pages: 40, ignore: ["htgf.de"], status: ungetestet}
-    - {name: "HTGF Portfolio 2", url: "https://www.htgf.de/portfolio-sitemap2.xml", url_contains: "/portfolio/", max_pages: 40, ignore: ["htgf.de"], status: ungetestet}
+    - {name: "HTGF Portfolio",   url: "https://www.htgf.de/portfolio-sitemap.xml",  url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"], status: ungetestet}
+    - {name: "HTGF Portfolio 2", url: "https://www.htgf.de/portfolio-sitemap2.xml", url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"], status: ungetestet}
 
   pages:                   # Verzeichnis-/Portfolio-/Ausgründungsseiten: externe Links = Kandidaten
     - {name: "Fraunhofer ISE Spin-offs",    url: "https://www.ise.fraunhofer.de/de/ueber-uns/spin-offs.html", status: ungetestet}
@@ -67,8 +70,8 @@ sources:
     eu-startups.com, deutsche-startups.de, gruenderszene.de, techcrunch.com, europa.eu,
     bundesregierung.de, bmwk.de, exist.de, kfw.de, eib.org, mailchimp.com, bit.ly
   ]
-  links_per_article: 3     # höchstens so viele externe Links pro Artikel als Kandidaten
-  page_links_limit: 80     # höchstens so viele Links pro Verzeichnisseite
+  links_per_article: 5     # höchstens so viele externe Links pro Artikel als Kandidaten
+  page_links_limit: 150    # höchstens so viele Links pro Verzeichnisseite
 
 # ------------------------------------------------------------
 # Harte Filter (was rausfliegt)
@@ -153,11 +156,74 @@ sectors:
   Gesundheit:          [gesundheit, medizin, medtech, health, pharma, diagnostik]
   Software & KI:       [software, saas, plattform, ki, künstliche intelligenz, machine learning, daten]
 
-# Zusätzliche Signale (jeweils +1 Score)
+# Zusätzliche Signale (jeweils +1 Score). Bewusst eng gefasst: allgemeine Wörter wie
+# "Förderung", "Universität" oder "Fraunhofer" stehen auch auf den Seiten von Förderern und Instituten.
 signals:
-  funding:  [exist, gründungsstipendium, förderung, gefördert, bmwk, bmbf, horizon europe, eic accelerator, seed,
-             business angel, wagniskapital, venture capital, finanzierungsrunde]
-  spinoff:  [ausgründung, spin-off, spinoff, rwth, fraunhofer, universität, forschungszentrum, hochschule]
+  funding:  [exist-gründungsstipendium, gründungsstipendium, exist-forschungstransfer, pre-seed, seed-runde,
+             seed round, seed-finanzierung, business angel, finanzierungsrunde, funding round, eic accelerator,
+             wagniskapital]
+  spinoff:  [ausgründung, ausgegründet, spin-off, spinoff, spin-out]
+
+# ------------------------------------------------------------
+# Startup-Prüfung: Wer ist sicher KEIN Startup?
+# (hart = fliegt raus, weich = landet im Tabellenblatt "Prüfen" statt in der Liste)
+# ------------------------------------------------------------
+startup_check:
+  # Hart: Domain endet auf … (Behörden, Hochschulen, EU)
+  exclude_domain_suffixes: [.edu, .gov, .bund.de, .nrw, .ac.uk, .ac.at, .gv.at, .admin.ch, .europa.eu, .int]
+  # Hart: Domain enthält … (Forschung, Hochschulen, Banken, Kammern, Förderer, Plattformen)
+  exclude_domain_contains: [fraunhofer, helmholtz, max-planck, mpg.de, leibniz, rwth-aachen, rwth-campus,
+                            fz-juelich, dlr.de, kit.edu, hochschule, universit, ihk, hwk, sparkasse, volksbank,
+                            raiffeisen, kfw, nrwbank, wirtschaftsfoerderung, wirtschaftsförderung, wfg-, htgf,
+                            bmwk, bmbf, bmftr, ptj.de, xing.com]
+  # Hart: Ein Teil der Domain beginnt mit … (z. B. uni-koeln.de, tu-berlin.de, fh-aachen.de)
+  exclude_domain_starts: [uni-, tu-, th-, fh-, hs-]
+  # Hart: einzelne Domains, die schon einmal fälschlich in der Liste waren
+  exclude_domains: [digihub.de, startupland.de, stateofeuropeantech.com, koala.nrw, efre.nrw, s-ubg.de,
+                    interactive-pioneers.de, nexusluxembourg.com, globusmedical.com, aixtron.com, moingroup.de,
+                    heatpumpswatch.org, gccc-exist.de]
+  # Hart: Steht so im Impressum = Betreiber ist eine Institution
+  legal_operator_markers: [körperschaft des öffentlichen rechts, anstalt des öffentlichen rechts,
+                           stiftung des öffentlichen rechts, fraunhofer-gesellschaft zur förderung,
+                           max-planck-gesellschaft zur förderung, helmholtz-gemeinschaft, leibniz-gemeinschaft,
+                           industrie- und handelskammer, handwerkskammer, universitätsklinikum, landesbetrieb,
+                           eingetragene genossenschaft, wirtschaftsförderungsgesellschaft]
+  # Weich: klingt nach Förderer, Netzwerk, Event oder Medium statt nach Startup
+  support_org_markers: [wir unterstützen startups, wir unterstützen gründer, we support startups,
+                        unsere startups, our startups, für gründerinnen und gründer, startup-ökosystem,
+                        startup ecosystem, startup-wettbewerb, accelerator-programm, inkubator-programm,
+                        tickets sichern, get your ticket]
+  # Weich: klingt nach Konzern / etabliertem Unternehmen
+  large_company_markers: [mitarbeiter weltweit, mitarbeitende weltweit, employees worldwide, börsennotiert,
+                          listed on the, tochtergesellschaft der, a subsidiary of, standorte weltweit,
+                          locations worldwide, jahrzehnten erfahrung, decades of experience]
+  # Weich: diese Rechtsformen kurz prüfen (Impact-Startups sind manchmal gGmbH oder e.V.)
+  review_legal_forms: [e.V.]
+
+# ------------------------------------------------------------
+# Empfehlungen fürs Startup Village (oben im HTML-Bericht und in der Mail)
+# Jedes Startup bekommt Passungs-Punkte; die besten landen in der Empfehlungsliste.
+# ------------------------------------------------------------
+empfehlungen:
+  anzahl: 10                 # so viele Empfehlungen oben im Bericht
+  neue_zuerst: true          # Treffer aus dem aktuellen Lauf bevorzugen
+  ohne_kontaktstatus: true   # Startups mit ausgefülltem Kontaktstatus (Excel) nicht mehr empfehlen
+  punkte:
+    region:    {"Aachen / Region": 4, "NRW": 2}
+    phase:     {"Idee / Gründung": 3, "Pre-Seed / Prototyp": 3, "Seed": 2, "Wachstum": 0}
+    kategorie: {Greentech: 3, Deeptech: 2, Impact: 2}
+    sektor:    {Energie: 3, Kreislaufwirtschaft: 2, Materialien: 1, "Bau & Gebäude": 1, Mobilität: 1}
+    junges_startup: 2        # gegründet in den letzten 3 Jahren
+    email_vorhanden: 1       # generische Kontaktadresse gefunden
+  # Welches Programm passt? (nach Entwicklungsphase – bitte an eure Programme anpassen)
+  programm:
+    "Idee / Gründung": Incubator
+    "Pre-Seed / Prototyp": Incubator
+    "Seed": Accelerator
+    "Wachstum": Accelerator
+
+# Anzeigenamen der Kategorien im Bericht
+category_labels: {greentech: Greentech, impact: Impact, deeptech: Deeptech}
 
 # Nur diese generischen Adress-Anfänge werden gespeichert. Persönliche Adressen werden verworfen.
 generic_email_prefixes: [info, kontakt, contact, hello, hallo, office, mail, team, post, hi, welcome, business,

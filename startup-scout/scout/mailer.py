@@ -33,7 +33,7 @@ def send(subject: str, body: str, attachment_paths) -> bool:
     msg = EmailMessage()
     msg["Subject"], msg["From"], msg["To"] = subject, sender, to
     msg.set_content(body)
-    types = {".pdf": ("application", "pdf"),
+    types = {".pdf": ("application", "pdf"), ".html": ("text", "html"),
              ".xlsx": ("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
     for p in ([attachment_paths] if isinstance(attachment_paths, str) else attachment_paths):
         maintype, subtype = types.get(os.path.splitext(p)[1].lower(), ("application", "octet-stream"))

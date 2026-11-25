@@ -1,6 +1,8 @@
 """Regelbasierte Bewertung und Filter – keine KI, nachvollziehbar und reproduzierbar."""
 import re
 
+from . import startup_check
+
 _PATTERNS = {}
 
 # Begriffe, die auf Investoren, Berichte oder Werbeseiten hindeuten (überschreibbar über config: exclude_markers)
@@ -60,6 +62,7 @@ def evaluate(info: dict, cfg: dict, today):
     base = sum(min(th[n][0], sc["theme_cap"]) for n in focus_hit)
 
     info["themes"] = focus_hit
+    info["theme_points"] = {n: th[n][0] for n in cfg["themes"]}
     info["hits"] = ", ".join(dict.fromkeys(h for n in focus_hit for h in th[n][1]))[:140]
 
     sector_counts = {s: len(_hits(text, kws)) for s, kws in cfg["sectors"].items()}
@@ -78,6 +81,10 @@ def evaluate(info: dict, cfg: dict, today):
     info["age"] = age
 
     reasons = []
+    hard, soft = startup_check.check(info, cfg.get("startup_check", {}))
+    if hard:
+        reasons.append(hard)
+    info["review_notes"] = "; ".join(soft)
     if _hits(text, cfg.get("exclude_markers", DEFAULT_EXCLUDE)):
         reasons.append("Investor/Werbeseite, kein Startup")
     if age is not None and (founded < flt["founded_from"] or age > flt["max_age_years"]):
@@ -107,10 +114,24 @@ def evaluate(info: dict, cfg: dict, today):
         info["bucket"] = "focus"
     elif not focus_hit and flt["include_other"] and bonus >= sc["min_score_other"]:
         info["bucket"] = "other"
+    # Unsichere Fälle nicht verschicken, sondern zum Prüfen in die Gesamtliste legen
+    if info["bucket"] and soft:
+        info["review_of"] = info["bucket"]
+        info["bucket"] = "review"
 
 
 def select(results: list, cfg: dict):
     key = lambda r: (-r["score"], r["name"].lower())
     focus = sorted([r for r in results if r["bucket"] == "focus"], key=key)[: cfg["run"]["max_focus"]]
     other = sorted([r for r in results if r["bucket"] == "other"], key=key)[: cfg["run"]["max_other"]]
-    return focus, other
+    review = sorted([r for r in results if r["bucket"] == "review"], key=key)[: cfg["run"].get("max_review", 30)]
+    return focus, other, review
+
+
+def primary_category(r: dict, cfg: dict) -> str:
+    """Hauptkategorie für Bericht und Filter: stärkstes Fokus-Thema, sonst "Weitere"."""
+    if not r.get("themes"):
+        return "Weitere"
+    pts = r.get("theme_points", {})
+    best = max(r["themes"], key=lambda t: (pts.get(t, 0), -cfg["focus_themes"].index(t)))
+    return cfg.get("category_labels", {}).get(best, best.capitalize())

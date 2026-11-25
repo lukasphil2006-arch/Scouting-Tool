@@ -5,7 +5,8 @@ import os
 
 import yaml
 
-from . import enrich, mailer, output, scoring, sources
+from . import enrich, mailer, output, report, scoring, sources
+from . import master as ms
 from . import state as st
 from .net import Fetcher, domain_of, host_only
 
@@ -75,37 +76,63 @@ def main(argv=None):
         results.append(info)
         print(f"  {info['name'][:30]:30} score={info['score']:>2} bucket={info['bucket']} {info['reject_reason']}")
 
-    focus, other = scoring.select(results, cfg)
+    focus, other, review = scoring.select(results, cfg)
     delivered = {r["domain"] for r in focus + other}
     for r in focus + other:
         stats[r["source"]]["geliefert"] += 1
     print("\nQuellen-Bilanz (neu / geprüft / geliefert):")
     for k, v in sorted(stats.items(), key=lambda kv: -kv[1]["geliefert"]):
         print(f"  {k[:40]:40} {v['neu']:>4} / {v['geprüft']:>4} / {v['geliefert']:>3}")
+    if review:
+        print(f"{len(review)} unsichere Einträge kommen ins Blatt 'Prüfen':")
+        for r in review:
+            print(f"  {r['name'][:30]:30} {r['review_notes']}")
 
-    # 3) Ausgabe
-    meta = {"date": today.strftime("%d.%m.%Y"), "checked": len(results), "retention": run["retention_days"]}
+    # 3) Gesamtliste (Backup) fortschreiben
+    master_path = run.get("master_file", "data/gesamtliste.xlsx")
+    retention = run.get("master_retention_days", run["retention_days"])
+    master = ms.load(master_path)
+    dropped = ms.purge(master, today, retention)
+    for bereich, rows in (("Fokus", focus), ("Weitere", other)):
+        for r in rows:
+            ms.upsert(master, "startups", ms.to_row(r, bereich, scoring.primary_category(r, cfg), today))
+    for r in review:
+        bereich = "Fokus" if r.get("review_of") == "focus" else "Weitere"
+        ms.upsert(master, "review", ms.to_row(r, bereich, scoring.primary_category(r, cfg), today))
+    print(f"Gesamtliste: {len(master['startups'])} Startups, {len(master['review'])} zum Prüfen "
+          f"({dropped} wegen Löschfrist entfernt)")
+
+    # 4) Ausgabe: interaktiver HTML-Bericht + Excel-Gesamtliste (+ optional PDF)
+    meta = {"date": today.strftime("%d.%m.%Y"), "checked": len(results), "retention": retention}
     base = os.path.join(args.out, f"startup-scouting_{today.isoformat()}")
-    xlsx_path, pdf_path = base + ".xlsx", base + ".pdf"
-    output.write_xlsx(xlsx_path, focus, other, meta)
-    output.write_pdf(pdf_path, focus, other, meta)
-    print(f"Liste geschrieben: {pdf_path} + {xlsx_path}  (Fokus: {len(focus)}, Weitere: {len(other)})")
+    html_path, xlsx_path = base + ".html", base + "_gesamtliste.xlsx"
+    recs = report.write_html(html_path, master, meta, today.isoformat(), cfg)
+    ms.save(xlsx_path, master, meta)
+    attachments = [html_path, xlsx_path]
+    if run.get("attach_pdf"):
+        output.write_pdf(base + ".pdf", focus, other, meta)
+        attachments.append(base + ".pdf")
+    print(f"Bericht geschrieben: {html_path} + {xlsx_path}  (neu: Fokus {len(focus)}, Weitere {len(other)}, "
+          f"Prüfen {len(review)})")
 
     if not args.dry_run:
         mail_ok = True
-        if focus or other:
+        if focus or other or review:
             try:
-                mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} Fokus-Treffer",
-                            output.mail_text(focus, other, meta), [pdf_path, xlsx_path])
+                mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} neue Fokus-Treffer",
+                            output.mail_text(focus, other, review, master, meta, recs), attachments)
             except Exception as exc:  # Mail fehlgeschlagen: Liste bleibt als Datei erhalten, Merkzettel nicht updaten
                 mail_ok = False
                 print(f"::error::Mailversand fehlgeschlagen: {exc}")
-                print("Die Liste liegt trotzdem als Datei vor. Merkzettel wird nicht aktualisiert, "
+                print("Die Liste liegt trotzdem als Datei vor. Merkzettel und Gesamtliste werden nicht aktualisiert, "
                       "damit die Treffer beim nächsten Lauf erneut erscheinen.")
         if mail_ok:
+            review_d = {r["domain"] for r in review}
             for r in results:
-                st.mark(state, r["domain"], "delivered" if r["domain"] in delivered else "rejected", today)
+                status = "delivered" if r["domain"] in delivered else ("review" if r["domain"] in review_d else "rejected")
+                st.mark(state, r["domain"], status, today)
             st.save(run["state_file"], state)
+            ms.save(master_path, master, meta)
 
 
 if __name__ == "__main__":
