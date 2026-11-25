@@ -90,7 +90,7 @@
   },
   "aachenohnelimits.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "aatral-esp.com": {
    "first_seen": "2026-11-25",
@@ -366,7 +366,7 @@
   },
   "aixitem.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "aixo.com": {
    "first_seen": "2026-11-25",
@@ -1130,7 +1130,7 @@
   },
   "botronics.be": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "bound.co": {
    "first_seen": "2026-11-25",
@@ -1154,7 +1154,7 @@
   },
   "broadbit.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "brondell.com": {
    "first_seen": "2026-11-25",
@@ -1310,7 +1310,7 @@
   },
   "cavicore.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "cdxi.gr": {
    "first_seen": "2026-11-25",
@@ -1450,7 +1450,7 @@
   },
   "cmpcomposites.fr": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "coactum.ch": {
    "first_seen": "2026-11-25",
@@ -1646,7 +1646,7 @@
   },
   "cybele.space": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "cyclebee.app": {
    "first_seen": "2026-11-25",
@@ -1786,7 +1786,7 @@
   },
   "delox-global.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "deltabiosciences.com": {
    "first_seen": "2026-11-25",
@@ -1894,7 +1894,7 @@
   },
   "doctec.at": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "dorbit.space": {
    "first_seen": "2026-11-25",
@@ -2238,7 +2238,7 @@
   },
   "giftgruen.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "givemetap.com": {
    "first_seen": "2026-11-25",
@@ -2286,7 +2286,7 @@
   },
   "group.vattenfall.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "gruen.net": {
    "first_seen": "2026-11-25",
@@ -2442,11 +2442,11 @@
   },
   "iste-group.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "ita-academy.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "ivu.com": {
    "first_seen": "2026-11-25",
@@ -2550,7 +2550,7 @@
   },
   "kontem.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "kontext.security": {
    "first_seen": "2026-11-25",
@@ -2634,7 +2634,7 @@
   },
   "mahr-heizung.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "mailchi.mp": {
    "first_seen": "2026-11-25",
@@ -2818,7 +2818,7 @@
   },
   "osborneclarke.com": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "ostara.com": {
    "first_seen": "2026-11-25",
@@ -2826,7 +2826,7 @@
   },
   "ostbelgienlive.be": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "osteolabs.de": {
    "first_seen": "2026-11-25",
@@ -2882,7 +2882,7 @@
   },
   "ph-mechanik.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "phasebiolabs.com": {
    "first_seen": "2026-11-25",
@@ -2958,7 +2958,7 @@
   },
   "pulsar-photonics.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "pv2plus.com": {
    "first_seen": "2026-11-25",
@@ -2998,7 +2998,7 @@
   },
   "regionaachen.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "relae.co": {
    "first_seen": "2026-11-25",
@@ -3038,7 +3038,7 @@
   },
   "rigontec.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "rejected"
   },
   "rimba.ai": {
    "first_seen": "2026-11-25",
@@ -3094,7 +3094,7 @@
   },
   "school.digitale-leute.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "schumacher.ac": {
    "first_seen": "2026-11-25",
@@ -3430,7 +3430,7 @@
   },
   "vemac.de": {
    "first_seen": "2026-11-25",
-   "status": "delivered"
+   "status": "review"
   },
   "veridue.ai": {
    "first_seen": "2026-11-25",
