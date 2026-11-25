@@ -46,7 +46,20 @@ def main(argv=None):
         if any(h == b or h.endswith("." + b) for b in blocked):
             continue
         todo.append(c)
-    todo = todo[: run["max_candidates"]]
+    # reihum über die Quellen verteilen, damit eine große Quelle nicht alle anderen verdrängt
+    by_src = {}
+    for c in todo:
+        by_src.setdefault(c["source"], []).append(c)
+    stats = {k: {"neu": len(v), "geprüft": 0, "geliefert": 0} for k, v in by_src.items()}
+    todo, queues = [], list(by_src.values())
+    while queues and len(todo) < run["max_candidates"]:
+        for q in list(queues):
+            if q:
+                todo.append(q.pop(0))
+            if not q:
+                queues.remove(q)
+            if len(todo) >= run["max_candidates"]:
+                break
     print(f"{len(todo)} neue Kandidaten werden geprüft")
 
     # 2) Anreichern und bewerten
@@ -57,25 +70,33 @@ def main(argv=None):
             st.mark(state, domain_of(c["url"]), "unreachable", today)
             continue
         info["source"], info["source_url"] = c["source"], c.get("source_url", "")
+        stats[c["source"]]["geprüft"] += 1
         scoring.evaluate(info, cfg, today)
         results.append(info)
         print(f"  {info['name'][:30]:30} score={info['score']:>2} bucket={info['bucket']} {info['reject_reason']}")
 
     focus, other = scoring.select(results, cfg)
     delivered = {r["domain"] for r in focus + other}
+    for r in focus + other:
+        stats[r["source"]]["geliefert"] += 1
+    print("\nQuellen-Bilanz (neu / geprüft / geliefert):")
+    for k, v in sorted(stats.items(), key=lambda kv: -kv[1]["geliefert"]):
+        print(f"  {k[:40]:40} {v['neu']:>4} / {v['geprüft']:>4} / {v['geliefert']:>3}")
 
     # 3) Ausgabe
     meta = {"date": today.strftime("%d.%m.%Y"), "checked": len(results), "retention": run["retention_days"]}
-    path = os.path.join(args.out, f"startup-scouting_{today.isoformat()}.xlsx")
-    output.write_xlsx(path, focus, other, meta)
-    print(f"Liste geschrieben: {path}  (Fokus: {len(focus)}, Weitere: {len(other)})")
+    base = os.path.join(args.out, f"startup-scouting_{today.isoformat()}")
+    xlsx_path, pdf_path = base + ".xlsx", base + ".pdf"
+    output.write_xlsx(xlsx_path, focus, other, meta)
+    output.write_pdf(pdf_path, focus, other, meta)
+    print(f"Liste geschrieben: {pdf_path} + {xlsx_path}  (Fokus: {len(focus)}, Weitere: {len(other)})")
 
     if not args.dry_run:
         mail_ok = True
         if focus or other:
             try:
                 mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} Fokus-Treffer",
-                            output.mail_text(focus, other, meta), path)
+                            output.mail_text(focus, other, meta), [pdf_path, xlsx_path])
             except Exception as exc:  # Mail fehlgeschlagen: Liste bleibt als Datei erhalten, Merkzettel nicht updaten
                 mail_ok = False
                 print(f"::error::Mailversand fehlgeschlagen: {exc}")

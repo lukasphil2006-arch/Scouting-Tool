@@ -5,7 +5,7 @@ import urllib.robotparser
 
 import requests
 
-MAX_BYTES = 2_000_000
+MAX_BYTES = 8_000_000
 
 
 def domain_of(url: str) -> str:
@@ -61,7 +61,7 @@ class Fetcher:
         try:
             r = self.session.get(url, timeout=self.timeout, stream=True)
             ctype = r.headers.get("Content-Type", "")
-            if r.status_code != 200 or not any(t in ctype for t in ("html", "xml", "text")):
+            if r.status_code != 200 or not any(t in ctype for t in ("html", "xml", "text", "json")):
                 return None
             buf = b""
             for chunk in r.iter_content(65536):

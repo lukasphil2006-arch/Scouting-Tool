@@ -1,0 +1,32 @@
+# In deine config.yaml unter "sources:" einfügen (bestehende rss/csv-Einträge behalten, ein altes "pages:" ersetzen).
+# Unter "run:" setzen:  max_candidates: 300   und   max_item_age_days: 120
+# status: erscheint hinter dem Quellennamen in PDF/Excel/Log, z.B. "HTGF Portfolio [ungetestet]".
+#   ungetestet = Abruf technisch denkbar, aber noch kein echter Lauf  ·  ungeprüft = Seitenaufbau unbekannt, evtl. 0 Treffer
+  json:
+    - {name: "YC Climate", url: "https://yc-oss.github.io/api/industries/climate.json", website_field: website}
+    - {name: "YC Climatetech", url: "https://yc-oss.github.io/api/tags/climatetech.json", website_field: website}
+    - {name: "YC Renewable Energy", url: "https://yc-oss.github.io/api/tags/renewable-energy.json", website_field: website}
+    - {name: "YC Sustainability", url: "https://yc-oss.github.io/api/tags/sustainability.json", website_field: website}
+    - {name: "YC Carbon Capture", url: "https://yc-oss.github.io/api/tags/carbon-capture-and-removal.json", website_field: website}
+    - {name: "ESA BIC Startups", url: "https://commercialisation.esa.int/wp-json/wp/v2/esa-startups?per_page=100", pages: 5, status: ungetestet}
+  sitemaps:
+    - {name: "HTGF Portfolio", url: "https://www.htgf.de/portfolio-sitemap.xml", url_contains: "/portfolio/", max_pages: 40, ignore: ["htgf.de"], status: ungetestet}
+    - {name: "HTGF Portfolio 2", url: "https://www.htgf.de/portfolio-sitemap2.xml", url_contains: "/portfolio/", max_pages: 40, ignore: ["htgf.de"], status: ungetestet}
+  pages:
+    - {name: "Fraunhofer ISE Spin-offs", url: "https://www.ise.fraunhofer.de/de/ueber-uns/spin-offs.html", status: ungetestet}
+    - {name: "DWI Aachen Start-ups", url: "https://www.dwi.rwth-aachen.de/en/seite/startups", status: ungetestet}
+    - {name: "Helmholtz Spin-offs", url: "https://www.helmholtz.de/en/transfer/examples-and-successes/spin-offs/", status: ungeprüft}
+    - {name: "Fraunhofer Venture", url: "https://venture.fraunhofer.de", status: ungeprüft}
+    - {name: "RWTH Spin-off Award", url: "https://www.rwth-innovation.de/de/gruender/awards/spin-off-award", status: ungeprüft}
+    - {name: "digitalHUB Aachen Mitglieder", url: "https://www.aachen.digital/en/digitalhub-aachen/members/", status: ungeprüft}
+    - {name: "de:hub Düsseldorf GreenTech", url: "https://www.de-hub.de/en/the-hubs/duesseldorf/", status: ungeprüft}
+    - {name: "Startup Village Jülich", url: "https://startup-village-juelich.cobot.me/events", status: ungeprüft}
+    - {name: "World Fund Portfolio", url: "https://www.worldfund.vc/portfolio", status: ungeprüft}
+    - {name: "Extantia Portfolio", url: "https://f4.fund/firms/extantia/portfolio", status: ungeprüft}
+    - {name: "Planet A Portfolio", url: "https://funding.tech.eu/investors/Planet%20A%20Ventures", status: ungeprüft}
+    - {name: "Global Cleantech 100", url: "https://cleantech.com/the-global-cleantech-100/", status: ungeprüft}
+    - {name: "EXIST Gründerstipendium", url: "https://www.exist.de", status: ungeprüft}
+    - {name: "EIC Accelerator Runde 2026", url: "https://eic.ec.europa.eu/news/38-start-ups-and-smes-secure-eic-support-latest-round-eic-accelerator-2026-06-15_en", status: ungeprüft}
+    - {name: "EU-Startups 36 Greentech DE", url: "https://www.eu-startups.com/36-top-greentech-startups-and-companies-in-germany", status: ungeprüft}
+    - {name: "Grüne Gründungen NRW", url: "https://www.ptj.de/veroeffentlichungen/aktuelles/gruene-gruendungen-nrw-14-innovative-start-ups-feiern-foerderzusage", status: ungeprüft}
+  # Zusätzlich in csv: ergänzen:  - inputs/namensliste_foerderung.csv   (Webseiten selbst eintragen, siehe Datei)

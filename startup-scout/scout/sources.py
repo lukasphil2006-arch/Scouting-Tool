@@ -1,6 +1,7 @@
 """Kandidaten sammeln: News-Feeds (RSS/Atom) und eigene CSV-Listen."""
 import csv
 import datetime as dt
+import json
 import email.utils
 import os
 import re
@@ -9,7 +10,14 @@ from urllib.parse import urljoin
 
 from bs4 import BeautifulSoup
 
-from .net import domain_of
+from .net import domain_of, host_only
+
+
+# Domains, die erfahrungsgemäß keine Startups sind (zusätzlich zu ignore_link_domains aus der config)
+BUILTIN_IGNORE = {"stateofeuropeantech.com", "atomico.com", "sifted.eu", "tech.eu", "forbes.com", "reuters.com",
+                  "bloomberg.com", "handelsblatt.com", "spiegel.de", "zeit.de", "wsj.com", "ft.com",
+                  "amazon.com", "amazon.de", "microsoft.com", "wikipedia.org", "creativecommons.org", "wordpress.org",
+                  "wordpress.com", "paypal.com", "whatsapp.com", "t.me", "pinterest.com", "reddit.com", "slack.com"}
 
 
 def _local(tag: str) -> str:
@@ -74,7 +82,7 @@ def from_rss(feed: dict, cfg: dict, fetcher):
     if not res:
         print(f"  ! Feed nicht lesbar: {feed['name']}")
         return out
-    ignore = set(cfg["sources"].get("ignore_link_domains", []))
+    ignore = set(cfg["sources"].get("ignore_link_domains", [])) | BUILTIN_IGNORE
     limit = cfg["sources"].get("links_per_article", 3)
     max_age = cfg["run"].get("max_item_age_days", 45)
     now = dt.datetime.now(dt.timezone.utc)
@@ -95,6 +103,109 @@ def from_rss(feed: dict, cfg: dict, fetcher):
     return out
 
 
+def from_page(entry, cfg: dict, fetcher):
+    """Verzeichnis-/Portfolio-/Ausstellerseite: alle externen Links darauf werden Kandidaten.
+    entry: URL-String oder {name: ..., url: ...}"""
+    url = entry if isinstance(entry, str) else entry["url"]
+    name = domain_of(url) if isinstance(entry, str) else entry.get("name", domain_of(url))
+    res = fetcher.get(url)
+    if not res:
+        print(f"  ! Seite nicht lesbar: {url}")
+        return []
+    ignore = set(cfg["sources"].get("ignore_link_domains", [])) | BUILTIN_IGNORE
+    limit = cfg["sources"].get("page_links_limit", 80)
+    return [{"url": u, "source": name, "source_url": url} for u in _external_links(res[0], res[1], ignore, limit)]
+
+
+URL_RE = re.compile(r"https?://[^\s\"'<>\\]+")
+
+
+def _walk_strings(obj):
+    if isinstance(obj, str):
+        yield obj
+    elif isinstance(obj, dict):
+        for v in obj.values():
+            yield from _walk_strings(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            yield from _walk_strings(v)
+
+
+def _records(data, list_path):
+    for key in (list_path or "").split("."):
+        if key:
+            data = data.get(key, []) if isinstance(data, dict) else []
+    return data if isinstance(data, list) else []
+
+
+def from_json(entry: dict, cfg: dict, fetcher):
+    """JSON-Liste (z.B. yc-oss, WordPress-REST). Pro Eintrag wird die Webseite aus `website_field`
+    gelesen; fehlt das Feld, wird die erste fremde URL im Eintrag genommen.
+    Optional: pages (Seitenzahl bei WordPress ?page=N), name_field."""
+    name = entry.get("name", domain_of(entry["url"]))
+    own = host_only(domain_of(entry["url"]))
+    ignore = set(cfg["sources"].get("ignore_link_domains", [])) | BUILTIN_IGNORE
+    out, pages = [], int(entry.get("pages", 1))
+    for n in range(1, pages + 1):
+        url = entry["url"] if pages == 1 else entry["url"] + ("&" if "?" in entry["url"] else "?") + f"page={n}"
+        res = fetcher.get(url)
+        if not res:
+            break
+        try:
+            data = json.loads(res[0])
+        except ValueError:
+            print(f"  ! kein JSON: {url}")
+            break
+        recs = _records(data, entry.get("list_path"))
+        if not recs:
+            break
+        for rec in recs:
+            site = rec.get(entry["website_field"]) if entry.get("website_field") and isinstance(rec, dict) else None
+            if not site:
+                for s_ in _walk_strings(rec):
+                    for u in URL_RE.findall(s_):
+                        h = host_only(domain_of(u))
+                        if h and h != own and not any(h == i or h.endswith("." + i) for i in ignore):
+                            site = u
+                            break
+                    if site:
+                        break
+            if site:
+                hint = rec.get(entry.get("name_field", "name"), "") if isinstance(rec, dict) else ""
+                out.append({"url": site if site.startswith("http") else "https://" + site, "source": name,
+                            "source_url": entry["url"], "name_hint": hint if isinstance(hint, str) else ""})
+    return out
+
+
+def from_sitemap(entry: dict, cfg: dict, fetcher):
+    """Sitemap -> Profilseiten -> erste fremde Webseite pro Profil (z.B. Portfolio-Seiten von Investoren).
+    Pro Lauf wird nur ein Ausschnitt (max_pages) gelesen; er wandert bei jedem Lauf weiter,
+    so wird mit der Zeit das ganze Portfolio abgedeckt."""
+    name = entry.get("name", domain_of(entry["url"]))
+    res = fetcher.get(entry["url"])
+    if not res:
+        print(f"  ! Sitemap nicht lesbar: {entry['url']}")
+        return []
+    needle = entry.get("url_contains", "")
+    locs = [m.strip() for m in re.findall(r"<loc>([^<]+)</loc>", res[0]) if needle in m]
+    if not locs:
+        return []
+    per = int(entry.get("max_pages", 40))
+    step = (dt.date.today().toordinal() // 14) * per
+    start = step % len(locs)
+    pick = (locs[start:] + locs[:start])[:per]
+    ignore = set(cfg["sources"].get("ignore_link_domains", [])) | BUILTIN_IGNORE | set(entry.get("ignore", []))
+    out = []
+    for u in pick:
+        page = fetcher.get(u)
+        if not page:
+            continue
+        links = _external_links(page[0], page[1], ignore, 1)
+        if links:
+            out.append({"url": links[0], "source": name, "source_url": u})
+    return out
+
+
 def from_csv(path: str):
     out = []
     if not os.path.exists(path):
@@ -111,11 +222,29 @@ def from_csv(path: str):
     return out
 
 
+def _tag(cands, entry):
+    """Quellen mit status (z.B. 'ungeprüft') werden in Liste und Bilanz gekennzeichnet."""
+    st = entry.get("status") if isinstance(entry, dict) else None
+    if st:
+        for c in cands:
+            c["source"] = f"{c['source']} [{st}]"
+    return cands
+
+
 def collect(cfg: dict, fetcher):
     cands = []
     for feed in cfg["sources"].get("rss", []):
         print(f"Feed: {feed['name']}")
-        cands += from_rss(feed, cfg, fetcher)
+        cands += _tag(from_rss(feed, cfg, fetcher), feed)
+    for entry in cfg["sources"].get("pages", []) or []:
+        print(f"Seite: {entry if isinstance(entry, str) else entry.get('name', entry['url'])}")
+        cands += _tag(from_page(entry, cfg, fetcher), entry)
+    for entry in cfg["sources"].get("json", []) or []:
+        print(f"JSON: {entry.get('name', entry['url'])}")
+        cands += _tag(from_json(entry, cfg, fetcher), entry)
+    for entry in cfg["sources"].get("sitemaps", []) or []:
+        print(f"Sitemap: {entry.get('name', entry['url'])}")
+        cands += _tag(from_sitemap(entry, cfg, fetcher), entry)
     for path in cfg["sources"].get("csv", []):
         cands += from_csv(path)
     return cands

@@ -79,6 +79,16 @@ def build():
     open(os.path.join(feed, "feed.xml"), "w", encoding="utf-8").write(FEED.format(d=now))
     open(os.path.join(feed, "a2.html"), "w", encoding="utf-8").write(
         '<html><body><p>Mehr:</p><a href="http://localhost:8102/">Quantenwerk</a></body></html>')
+    open(os.path.join(feed, "directory.html"), "w", encoding="utf-8").write(
+        '<html><body><a href="http://localhost:8105/">SocialLift</a> <a href="http://localhost:8101/">Gruenstrom</a>'
+        ' <a href="https://www.linkedin.com/x">LinkedIn</a></body></html>')
+    open(os.path.join(feed, "list.json"), "w", encoding="utf-8").write(
+        '{"items":[{"name":"Quantenwerk","website":"http://localhost:8102/"},{"name":"X","other":{"u":"http://localhost:8103/"}}]}')
+    open(os.path.join(feed, "sitemap.xml"), "w", encoding="utf-8").write(
+        "<urlset><url><loc>http://localhost:8100/portfolio/p1.html</loc></url><url><loc>http://localhost:8100/blog/x.html</loc></url></urlset>")
+    os.makedirs(os.path.join(feed, "portfolio"))
+    open(os.path.join(feed, "portfolio", "p1.html"), "w", encoding="utf-8").write(
+        '<html><body><a href="http://localhost:8105/">Unternehmenswebsite</a></body></html>')
     with open(os.path.join(DEMO, "extra.csv"), "w", encoding="utf-8") as f:
         f.write("name,website,source,note\nSocialLift,http://localhost:8105/,Förderliste,\nAltBau,http://localhost:8104/,Förderliste,\n")
 
@@ -90,6 +100,9 @@ def main():
     cfg["run"].update({"request_delay_s": 0, "state_file": os.path.join(DEMO, "state.json"),
                        "blocklist_file": os.path.join(DEMO, "blocklist.txt"), "require_email_domain_match": False})
     cfg["sources"]["rss"] = [{"name": "Demo-Feed", "url": "http://localhost:8100/feed.xml"}]
+    cfg["sources"]["pages"] = [{"name": "Demo-Verzeichnis", "url": "http://localhost:8100/directory.html"}]
+    cfg["sources"]["json"] = [{"name": "Demo-JSON", "url": "http://localhost:8100/list.json", "list_path": "items", "website_field": "website"}]
+    cfg["sources"]["sitemaps"] = [{"name": "Demo-Portfolio", "url": "http://localhost:8100/sitemap.xml", "url_contains": "/portfolio/", "max_pages": 5}]
     cfg["sources"]["csv"] = [os.path.join(DEMO, "extra.csv")]
     cfg_path = os.path.join(DEMO, "config.yaml")
     yaml.safe_dump(cfg, open(cfg_path, "w", encoding="utf-8"), allow_unicode=True)

@@ -21,7 +21,7 @@ class _SMTP4SSL(smtplib.SMTP_SSL):
         return self.context.wrap_socket(_connect_v4(host, port, timeout), server_hostname=self._host)
 
 
-def send(subject: str, body: str, attachment_path: str) -> bool:
+def send(subject: str, body: str, attachment_paths) -> bool:
     host, to = os.environ.get("SMTP_HOST"), os.environ.get("MAIL_TO")
     if not host or not to:
         print("Mailversand übersprungen (SMTP_HOST/MAIL_TO nicht gesetzt).")
@@ -33,10 +33,12 @@ def send(subject: str, body: str, attachment_path: str) -> bool:
     msg = EmailMessage()
     msg["Subject"], msg["From"], msg["To"] = subject, sender, to
     msg.set_content(body)
-    with open(attachment_path, "rb") as f:
-        msg.add_attachment(f.read(), maintype="application",
-                           subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                           filename=os.path.basename(attachment_path))
+    types = {".pdf": ("application", "pdf"),
+             ".xlsx": ("application", "vnd.openxmlformats-officedocument.spreadsheetml.sheet")}
+    for p in ([attachment_paths] if isinstance(attachment_paths, str) else attachment_paths):
+        maintype, subtype = types.get(os.path.splitext(p)[1].lower(), ("application", "octet-stream"))
+        with open(p, "rb") as f:
+            msg.add_attachment(f.read(), maintype=maintype, subtype=subtype, filename=os.path.basename(p))
     smtp = _SMTP4SSL(host, port, timeout=30) if port == 465 else _SMTP4(host, port, timeout=30)
     with smtp as s:
         if port != 465:

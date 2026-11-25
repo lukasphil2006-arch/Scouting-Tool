@@ -12,11 +12,12 @@ DEFAULT_EXCLUDE = [
 
 def _pattern(term: str):
     """Kurze Begriffe (<=5 Zeichen) müssen als ganzes Wort vorkommen ("exist" trifft nicht "existing").
-    Längere Begriffe dürfen am Ende weitergehen ("nachhaltig" trifft "Nachhaltigkeit")."""
+    Längere Begriffe dürfen am Ende weitergehen ("nachhaltig" trifft "Nachhaltigkeit").
+    Vor dem Begriff darf kein Buchstabe oder Bindestrich stehen ("seed" trifft nicht "Pre-Seed")."""
     t = term.strip().lower()
     if t not in _PATTERNS:
         end = r"(?!\w)" if len(t) <= 5 and t[-1:].isalnum() else ""
-        _PATTERNS[t] = re.compile(r"(?<!\w)" + re.escape(t) + end)
+        _PATTERNS[t] = re.compile(r"(?<![\w-])" + re.escape(t) + end)
     return _PATTERNS[t]
 
 
