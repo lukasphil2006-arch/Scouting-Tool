@@ -36,6 +36,10 @@ class AIUnavailable(Exception):
     pass
 
 
+class BatchFailed(Exception):
+    """Nur dieser Block ging schief (z. B. ungültiges JSON) – weitermachen."""
+
+
 class Checker:
     def __init__(self, cfg: dict):
         a = cfg.get("ai", {}) or {}
@@ -43,7 +47,9 @@ class Checker:
         self.key = os.environ.get(a.get("key_env", "AI_API_KEY"), "")
         self.enabled = bool(a.get("enabled")) and bool(self.key)
         self.url = a.get("base_url", "https://api.mistral.ai/v1/chat/completions")
-        self.model = a.get("model", "mistral-small-latest")
+        models = a.get("models") or [a.get("model", "mistral-small-latest")]
+        self.models = [m for m in models if m]
+        self.model = self.models[0]
         self.batch = int(a.get("batch_size", 6))
         self.chars = int(a.get("max_chars_per_site", 2500))
         self.delay = float(a.get("delay_s", 1.5))
@@ -61,22 +67,41 @@ class Checker:
             print(self.status)
 
     def _post(self, messages):
-        body = {"model": self.model, "messages": messages, "temperature": 0.1,
-                "response_format": {"type": "json_object"}}
         headers = {"Authorization": f"Bearer {self.key}", "Content-Type": "application/json"}
-        for attempt in range(4):
+        err = ""
+        for attempt in range(6):
+            body = {"model": self.model, "messages": messages, "temperature": 0.1,
+                    "response_format": {"type": "json_object"}}
             time.sleep(self.delay)
             try:
-                r = requests.post(self.url, headers=headers, json=body, timeout=90)
+                r = requests.post(self.url, headers=headers, json=body, timeout=120)
             except requests.RequestException as exc:
                 err = str(exc)
-            else:
-                if r.status_code == 200:
-                    return r.json()["choices"][0]["message"]["content"]
-                err = f"HTTP {r.status_code}: {r.text[:200]}"
-                if r.status_code in (401, 403, 404):
-                    raise AIUnavailable(err)
-            time.sleep(5 * (attempt + 1))  # 429 / 5xx / Netzwerk: kurz warten, dann nochmal
+                time.sleep(10)
+                continue
+            if r.status_code == 200:
+                return r.json()["choices"][0]["message"]["content"]
+            err = f"HTTP {r.status_code}: {r.text[:200]}"
+            low = r.text.lower()
+            # Modell gibt es (nicht mehr) -> nächstes Modell aus der Liste probieren
+            if r.status_code in (400, 404) and ("model_not_found" in low or "decommissioned" in low
+                                                or "does not exist" in low) and len(self.models) > 1:
+                print(f"Modell {self.model} nicht verfügbar, versuche {self.models[1]}")
+                self.models.pop(0)
+                self.model = self.models[0]
+                continue
+            if r.status_code in (400, 413, 422):
+                raise BatchFailed(err)
+            if r.status_code in (401, 402, 403, 404):
+                raise AIUnavailable(err)
+            # 429 / 5xx: so lange warten, wie der Anbieter sagt (max. 2 Minuten), sonst aufgeben
+            try:
+                wait = float(r.headers.get("retry-after", 0)) or 15 * (attempt + 1)
+            except ValueError:
+                wait = 15 * (attempt + 1)
+            if wait > 120:
+                raise AIUnavailable(f"Tageslimit erreicht ({err})")
+            time.sleep(wait)
         raise AIUnavailable(err)
 
     def _payload(self, items):
@@ -108,6 +133,9 @@ class Checker:
                 self.failed = True
                 self.status = f"KI-Prüfung fehlgeschlagen nach {self.checked} Einträgen: {str(exc)[:160]}"
                 break
+            except BatchFailed as exc:
+                print(f"KI: Block übersprungen ({str(exc)[:120]})")
+                continue
             except (ValueError, KeyError, TypeError) as exc:
                 print(f"KI-Antwort nicht lesbar ({exc}), dieser Block bleibt regelbasiert.")
                 continue

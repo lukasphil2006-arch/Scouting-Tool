@@ -218,13 +218,18 @@ startup_check:
 # ------------------------------------------------------------
 ai:
   enabled: true
-  base_url: https://api.mistral.ai/v1/chat/completions
-  model: mistral-small-latest
+  # Groq: kostenlos, ohne Kreditkarte (console.groq.com -> API Keys). Begrenzt pro Minute/Tag,
+  # deshalb kleine Blöcke und Pausen. Was über das Tageslimit geht, bleibt regelbasiert.
+  base_url: https://api.groq.com/openai/v1/chat/completions
+  models: [llama-3.3-70b-versatile, openai/gpt-oss-120b, openai/gpt-oss-20b, llama-3.1-8b-instant]  # erstes verfügbares wird genutzt
+  # Alternative Mistral (EU, braucht ~10 € Guthaben, dann sehr günstig):
+  #   base_url: https://api.mistral.ai/v1/chat/completions
+  #   models: [mistral-small-latest]
   key_env: AI_API_KEY
-  batch_size: 6            # Firmen pro Anfrage
-  max_chars_per_site: 2500 # so viel Website-Text pro Firma geht an die KI
-  delay_s: 1.5             # Pause zwischen Anfragen (Mistral kostenlos: max. 1 Anfrage pro Sekunde)
-  max_calls: 120           # Obergrenze pro Lauf
+  batch_size: 4            # Firmen pro Anfrage
+  max_chars_per_site: 1800 # so viel Website-Text pro Firma geht an die KI
+  delay_s: 25              # Pause zwischen Anfragen (Groq kostenlos: wenige tausend Tokens pro Minute)
+  max_calls: 60            # Obergrenze pro Lauf (≈ 240 Firmen, ca. 25 Min.)
   confirm_review: true     # KI darf Grenzfälle aus "Prüfen" in die Liste holen
   trust_category: true     # KI-Kategorie hat Vorrang vor den Stichwort-Treffern
 
