@@ -1,0 +1,127 @@
+# ============================================================
+# Startup-Scout – Konfiguration
+# Alles, was du anpassen willst, steht hier. Kein Code nötig.
+# ============================================================
+
+run:
+  max_focus: 25            # max. Einträge in der Liste "Fokus" (Greentech/Impact/Deeptech)
+  max_other: 10            # max. Einträge in der Liste "Weitere"
+  max_candidates: 150      # so viele neue Websites werden pro Lauf höchstens geprüft
+  retention_days: 180      # nach dieser Zeit wird der Merkzettel (nur Domain + Datum) gelöscht
+  request_delay_s: 2       # Pause zwischen Anfragen an dieselbe Website (höflich bleiben)
+  max_item_age_days: 45    # nur News-Artikel der letzten X Tage auswerten
+  state_file: data/state.json
+  blocklist_file: blocklist.txt
+  user_agent: "StartupScout/0.1 (Startup-Scouting; Kontakt: scouting@example.org)"   # <- eure echte Adresse eintragen!
+  require_email_domain_match: true   # E-Mail muss zur Domain der Website passen
+
+# ------------------------------------------------------------
+# Quellen
+# ------------------------------------------------------------
+sources:
+  rss:                     # News-Feeds: verlinkte Firmenwebsites werden als Kandidaten geprüft
+    - {name: "EU-Startups",       url: "https://www.eu-startups.com/feed/"}
+    - {name: "Deutsche Startups", url: "https://www.deutsche-startups.de/feed/"}
+  csv:                     # eigene Listen (z. B. Export aus Förderdatenbank, Messe-Ausstellerliste)
+    - inputs/manual_startups.csv
+  # Domains, die in Artikeln verlinkt werden, aber keine Startups sind:
+  ignore_link_domains: [
+    google.com, linkedin.com, twitter.com, x.com, facebook.com, instagram.com, youtube.com,
+    youtu.be, medium.com, github.com, apple.com, wikipedia.org, crunchbase.com, tiktok.com,
+    eu-startups.com, deutsche-startups.de, gruenderszene.de, techcrunch.com, europa.eu,
+    bundesregierung.de, bmwk.de, exist.de, kfw.de, eib.org, mailchimp.com, bit.ly
+  ]
+  links_per_article: 3     # höchstens so viele externe Links pro Artikel als Kandidaten
+
+# ------------------------------------------------------------
+# Harte Filter (was rausfliegt)
+# ------------------------------------------------------------
+filters:
+  founded_from: 2016
+  max_age_years: 8
+  allow_unknown_founded: true     # Gründungsjahr nicht gefunden -> trotzdem behalten
+  phases: ["Idee / Gründung", "Pre-Seed / Prototyp", "Seed", "Wachstum"]
+  allow_unknown_phase: true
+  require_startup_signal: true    # Mindestens: junges Gründungsjahr ODER Phase ODER Förder-/Ausgründungs-Hinweis
+  include_other: true             # Liste "Weitere" (Startups ausserhalb Greentech/Impact/Deeptech) ausgeben
+
+# Fokus-Themen: Wer hier trifft, kommt in die Liste "Fokus"
+focus_themes: [greentech, impact, deeptech]
+
+# ------------------------------------------------------------
+# Regionen (erste passende zählt; Bonus fließt in den Score ein)
+# plz = Postleitzahl-Anfänge
+# ------------------------------------------------------------
+regions:
+  - {name: "Aachen / Region",  plz: ["52"],                                         bonus: 3, include: true}
+  - {name: "NRW",              plz: ["32","33","34","40","41","42","44","45","46","47","48","49","50","51","53","57","58","59"], bonus: 2, include: true}
+  - {name: "Deutschland (übrige)", plz: ["0","1","2","3","4","5","6","7","8","9"],  bonus: 0, include: true}
+  - {name: "Unbekannt",        plz: [],                                              bonus: 0, include: true}
+
+# ------------------------------------------------------------
+# Entwicklungsphasen (von "spät" nach "früh" geordnet, erste Treffer-Phase gewinnt)
+# ------------------------------------------------------------
+phases:
+  - {name: "Wachstum",            keywords: ["series a","series b","serie a","serie b","skalierung","scale-up","scaleup","wachstumsfinanzierung"]}
+  - {name: "Seed",                keywords: ["seed-runde","seed round","seed-finanzierung","seed funding","seedfinanzierung","business angel","wagniskapital"," seed "]}
+  - {name: "Pre-Seed / Prototyp", keywords: ["pre-seed","preseed","prototyp","prototype","mvp","pilotprojekt","pilotkunde","proof of concept","proof-of-concept"]}
+  - {name: "Idee / Gründung",     keywords: ["gründungsstipendium","exist-gründungsstipendium","exist","in gründung","gründerteam","ideenphase","gründungsidee"]}
+
+phase_bonus:
+  "Idee / Gründung": 1
+  "Pre-Seed / Prototyp": 2
+  "Seed": 2
+  "Wachstum": 0
+  "unbekannt": 0
+
+# ------------------------------------------------------------
+# Themen-Keywords. strong = 2 Punkte, weak = 1 Punkt (je Begriff einmal)
+# ------------------------------------------------------------
+scoring:
+  theme_threshold: 2     # Ab dieser Themen-Punktzahl gilt ein Thema als "getroffen"
+  theme_cap: 8           # Maximalpunkte pro Thema (verhindert Keyword-Spam)
+  min_score_focus: 4
+  min_score_other: 2
+  age_bonus_young: 2     # Alter <= 3 Jahre
+  age_bonus_ok: 1        # Alter <= 5 Jahre
+
+themes:
+  greentech:
+    strong: [greentech, cleantech, climate tech, klimaschutz, klimaneutral, dekarbonisierung, decarbonization,
+             erneuerbare energien, renewable energy, photovoltaik, solarenergie, windenergie, wasserstoff, hydrogen,
+             energiespeicher, batteriespeicher, kreislaufwirtschaft, circular economy, wärmepumpe, co2-reduktion,
+             co2-neutral, carbon capture, energiewende, bioökonomie, ressourceneffizienz]
+    weak: [nachhaltig, sustainability, umweltschutz, recycling, energieeffizienz, emissionen, ökologisch, klima,
+           co2, erneuerbar, grüne technologie, biobasiert, upcycling]
+  impact:
+    strong: [impact startup, social entrepreneurship, social impact, gemeinwohl, sustainable development goals,
+             b corp, soziale innovation, gesellschaftlicher mehrwert, impact investing, purpose-driven]
+    weak: [impact, sdg, sozial, inklusion, teilhabe, gemeinnützig, verantwortung, wirkung, gesellschaft]
+  deeptech:
+    strong: [deep tech, deeptech, quantentechnologie, quantum, photonik, photonics, halbleiter, semiconductor,
+             advanced materials, materialwissenschaft, forschungsausgründung, spin-off, spinoff, ausgründung,
+             biotechnologie, fusion, robotik, robotics, sensorik, nanotechnologie, patent]
+    weak: [forschung, wissenschaft, rwth, fraunhofer, universität, technologie-transfer, prototyp, hardware,
+           machine learning, künstliche intelligenz, ki-basiert, labor]
+
+# Sektor-Tags (nur Anzeige, nicht für den Score)
+sectors:
+  Energie:             [energie, solar, photovoltaik, wind, wasserstoff, hydrogen, speicher, strom, netz]
+  Kreislaufwirtschaft: [kreislaufwirtschaft, circular, recycling, upcycling, abfall, ressourcen, rohstoff]
+  Mobilität:           [mobilität, e-mobilität, elektrofahrzeug, ladeinfrastruktur, logistik, fahrzeug]
+  Bau & Gebäude:       [bauwesen, gebäude, baustoff, bau-, sanierung, immobilien]
+  Agrar & Food:        [landwirtschaft, agrar, food, lebensmittel, ernährung, vertical farming]
+  Wasser & Umwelt:     [wasser, abwasser, boden, biodiversität, umwelt]
+  Materialien:         [werkstoff, material, kunststoff, beschichtung, composite, chemie]
+  Gesundheit:          [gesundheit, medizin, medtech, health, pharma, diagnostik]
+  Software & KI:       [software, saas, plattform, ki, künstliche intelligenz, machine learning, daten]
+
+# Zusätzliche Signale (jeweils +1 Score)
+signals:
+  funding:  [exist, gründungsstipendium, förderung, gefördert, bmwk, bmbf, horizon europe, eic accelerator, seed,
+             business angel, wagniskapital, venture capital, finanzierungsrunde]
+  spinoff:  [ausgründung, spin-off, spinoff, rwth, fraunhofer, universität, forschungszentrum, hochschule]
+
+# Nur diese generischen Adress-Anfänge werden gespeichert. Persönliche Adressen werden verworfen.
+generic_email_prefixes: [info, kontakt, contact, hello, hallo, office, mail, team, post, hi, welcome, business,
+                         anfrage, mailbox, kooperation, partner, presse, press]

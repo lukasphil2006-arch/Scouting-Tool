@@ -1,0 +1,3 @@
+# Sperrliste: Eine Domain pro Zeile (z. B. beispiel-startup.de).
+# Wer nicht kontaktiert werden möchte oder widersprochen hat, kommt hier rein.
+# Diese Domains werden nie geprüft und nie in Listen aufgenommen.
