@@ -1,0 +1,112 @@
+{
+ "seen": {
+  "11.vc": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "adyen.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "apex-signal.tech": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "api.whatsapp.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "arveum.ai": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "barrierefrei-im-kopf.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "bcomp.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "bound.co": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "buttz.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "commerzventures.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "elbic.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "europeaninternetventures.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "eventfirst.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "feeds.feedburner.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "fly.vc": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "glimmerapp.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "goodheat.energy": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "moingroup.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "nexusluxembourg.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "outcomet.app": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "playbk.io": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "speakingstage.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "startupland.de": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "startupradar.substack.com": {
+   "first_seen": "2026-11-25",
+   "status": "unreachable"
+  },
+  "stateofeuropeantech.com": {
+   "first_seen": "2026-11-25",
+   "status": "delivered"
+  },
+  "vetaion.com": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  },
+  "werbezeichen.de": {
+   "first_seen": "2026-11-25",
+   "status": "rejected"
+  }
+ }
+}
