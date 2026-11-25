@@ -55,6 +55,9 @@ def check(info: dict, sc: dict):
     org = _find(text, sc.get("support_org_markers", []))
     if org:
         soft.append(f"wirkt wie Förderer/Netzwerk/Event („{org[0]}“)")
+    other = _find(text + " " + legal, sc.get("no_startup_markers", []))
+    if other:
+        soft.append(f"wirkt wie Dienstleister/Medium/Bildungsträger („{other[0]}“)")
     big = _find(text + " " + legal, sc.get("large_company_markers", []))
     if big:
         soft.append(f"wirkt wie etabliertes Unternehmen („{big[0]}“)")

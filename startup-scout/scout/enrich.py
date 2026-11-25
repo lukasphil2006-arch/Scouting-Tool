@@ -11,6 +11,7 @@ warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from .net import domain_of, host_only
 from .startup_check import founded_fallback
+from . import clean
 
 LEGAL_PAGE = re.compile(r"impressum|imprint|legal[- ]?notice|kontakt|contact", re.I)
 ABOUT_PAGE = re.compile(r"über[- ]?uns|ueber[- ]?uns|about|mission|unternehmen|company", re.I)
@@ -85,10 +86,9 @@ def analyze_site(fetcher, url: str, cfg: dict, name_hint: str = ""):
 
     title = (soup.title.string or "").strip() if soup.title and soup.title.string else ""
     og = soup.find("meta", property="og:site_name")
-    name = (og["content"].strip() if og and og.get("content") else re.split(r"\s[|\-–—•]\s", title)[0]).strip()
-    name = name or name_hint or host_only(domain)
+    og_site = og["content"].strip() if og and og.get("content") else ""
     desc_tag = soup.find("meta", attrs={"name": "description"}) or soup.find("meta", property="og:description")
-    description = (desc_tag.get("content", "").strip() if desc_tag else "")[:300]
+    description = clean.clean_description(desc_tag.get("content", "") if desc_tag else "")
     headings = " ".join(h.get_text(" ", strip=True) for h in soup.find_all(["h1", "h2"])[:8])
 
     legal_urls = _subpages(soup, final_url, LEGAL_PAGE, 2)
@@ -131,10 +131,14 @@ def analyze_site(fetcher, url: str, cfg: dict, name_hint: str = ""):
         if y and 1900 <= y <= dt.date.today().year:
             founded = y
 
-    plz = city = ""
-    m = PLZ_RE.search(legal_text) or PLZ_RE.search(body_text)
-    if m:
-        plz, city = m.group(1), m.group(2)
+    if founded is None:
+        founded = clean.age_hint(scan, dt.date.today().year)
+
+    plz, city = clean.plz_city(legal_text, body_text)
+    country = clean.country_of(domain, legal_text or body_text[-3000:], bool(plz))
+    if country and country != "Deutschland":
+        plz = ""  # ausländische Postleitzahlen nicht als deutsche Region werten
+    name = clean.pick_name(title, og_site, legal_text, domain, name_hint)
 
     legal_form = ""
     for label, rx in LEGAL_FORMS:
@@ -143,7 +147,8 @@ def analyze_site(fetcher, url: str, cfg: dict, name_hint: str = ""):
             break
 
     return {
-        "name": name[:80], "url": final_url, "domain": domain, "description": description or headings[:200],
+        "name": name[:80], "url": final_url, "domain": domain, "description": description,
+        "about_text": (" ".join([description, headings, body_text[:2500], extra_text[:2000]]))[:5000],
         "text": all_text, "legal_text": legal_text[:8000], "emails": emails, "legal_page": legal_page_url or final_url,
-        "founded": founded, "plz": plz, "city": city, "legal_form": legal_form,
+        "founded": founded, "plz": plz, "city": city, "country": country, "legal_form": legal_form,
     }

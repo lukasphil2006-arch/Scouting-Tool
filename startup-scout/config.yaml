@@ -20,6 +20,7 @@ run:
 
 # ------------------------------------------------------------
 # Quellen
+# streng: true = Quelle listet auch Nicht-Startups; Einträge brauchen ein Gründungsjahr als Beleg (oder die KI-Bestätigung)
 # status: erscheint hinter dem Quellennamen in PDF/Excel/Log
 #   ungetestet = Abruf plausibel, aber noch kein echter Lauf
 #   ungeprüft  = Seitenaufbau unbekannt, evtl. 0 Treffer
@@ -35,11 +36,11 @@ sources:
     - {name: "YC Renewable Energy",  url: "https://yc-oss.github.io/api/tags/renewable-energy.json", website_field: website}
     - {name: "YC Sustainability",    url: "https://yc-oss.github.io/api/tags/sustainability.json", website_field: website}
     - {name: "YC Carbon Capture",    url: "https://yc-oss.github.io/api/tags/carbon-capture-and-removal.json", website_field: website}
-    - {name: "ESA BIC Startups",     url: "https://commercialisation.esa.int/wp-json/wp/v2/esa-startups?per_page=100", pages: 5, status: ungetestet}
+    - {name: "ESA BIC Startups",     url: "https://commercialisation.esa.int/wp-json/wp/v2/esa-startups?per_page=100", pages: 5}
 
   sitemaps:                # Portfolio-Profilseiten; pro Lauf wandert das gelesene Fenster weiter
-    - {name: "HTGF Portfolio",   url: "https://www.htgf.de/portfolio-sitemap.xml",  url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"], status: ungetestet}
-    - {name: "HTGF Portfolio 2", url: "https://www.htgf.de/portfolio-sitemap2.xml", url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"], status: ungetestet}
+    - {name: "HTGF Portfolio",   url: "https://www.htgf.de/portfolio-sitemap.xml",  url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"]}
+    - {name: "HTGF Portfolio 2", url: "https://www.htgf.de/portfolio-sitemap2.xml", url_contains: "/portfolio/", max_pages: 100, ignore: ["htgf.de"]}
 
   pages:                   # Verzeichnis-/Portfolio-/Ausgründungsseiten: externe Links = Kandidaten
     - {name: "Fraunhofer ISE Spin-offs",    url: "https://www.ise.fraunhofer.de/de/ueber-uns/spin-offs.html", status: ungetestet}
@@ -47,7 +48,7 @@ sources:
     - {name: "Helmholtz Spin-offs",         url: "https://www.helmholtz.de/en/transfer/examples-and-successes/spin-offs/", status: ungeprüft}
     - {name: "Fraunhofer Venture",          url: "https://venture.fraunhofer.de", status: ungeprüft}
     - {name: "RWTH Spin-off Award",         url: "https://www.rwth-innovation.de/de/gruender/awards/spin-off-award", status: ungeprüft}
-    - {name: "digitalHUB Aachen Mitglieder", url: "https://www.aachen.digital/en/digitalhub-aachen/members/", status: ungeprüft}
+    - {name: "digitalHUB Aachen Mitglieder", url: "https://www.aachen.digital/en/digitalhub-aachen/members/", streng: true}   # gemischte Liste: nur mit Beleg
     - {name: "de:hub Düsseldorf GreenTech", url: "https://www.de-hub.de/en/the-hubs/duesseldorf/", status: ungeprüft}
     - {name: "Startup Village Jülich",      url: "https://startup-village-juelich.cobot.me/events", status: ungeprüft}
     - {name: "World Fund Portfolio",        url: "https://www.worldfund.vc/portfolio", status: ungeprüft}
@@ -90,12 +91,14 @@ focus_themes: [greentech, impact, deeptech]
 
 # ------------------------------------------------------------
 # Regionen (erste passende zählt; Bonus fließt in den Score ein)
-# plz = Postleitzahl-Anfänge
+# plz = Postleitzahl-Anfänge, teil_von = übergeordnete Region (für die Filter im Bericht:
+# wer "NRW" wählt, sieht auch Aachen; wer "Deutschland" wählt, sieht NRW und Aachen)
 # ------------------------------------------------------------
 regions:
-  - {name: "Aachen / Region",  plz: ["52"],                                         bonus: 3, include: true}
-  - {name: "NRW",              plz: ["32","33","34","40","41","42","44","45","46","47","48","49","50","51","53","57","58","59"], bonus: 2, include: true}
-  - {name: "Deutschland (übrige)", plz: ["0","1","2","3","4","5","6","7","8","9"],  bonus: 0, include: true}
+  - {name: "Aachen / Region",  plz: ["52"],                                         bonus: 3, include: true, teil_von: "NRW"}
+  - {name: "NRW",              plz: ["32","33","40","41","42","44","45","46","47","48","50","51","53","57","58","59"], bonus: 2, include: true, teil_von: "Deutschland"}
+  - {name: "Deutschland",      plz: ["0","1","2","3","4","5","6","7","8","9"],  bonus: 0, include: true}
+  - {name: "Ausland",          plz: [],  ausland: true,                         bonus: 0, include: true}
   - {name: "Unbekannt",        plz: [],                                              bonus: 0, include: true}
 
 # ------------------------------------------------------------
@@ -181,13 +184,14 @@ startup_check:
   # Hart: einzelne Domains, die schon einmal fälschlich in der Liste waren
   exclude_domains: [digihub.de, startupland.de, stateofeuropeantech.com, koala.nrw, efre.nrw, s-ubg.de,
                     interactive-pioneers.de, nexusluxembourg.com, globusmedical.com, aixtron.com, moingroup.de,
-                    heatpumpswatch.org, gccc-exist.de]
+                    heatpumpswatch.org, gccc-exist.de, vattenfall.com, osborneclarke.com, ostbelgienlive.be,
+                    aachenohnelimits.de, regionaachen.de, rigontec.de]
   # Hart: Steht so im Impressum = Betreiber ist eine Institution
   legal_operator_markers: [körperschaft des öffentlichen rechts, anstalt des öffentlichen rechts,
                            stiftung des öffentlichen rechts, fraunhofer-gesellschaft zur förderung,
                            max-planck-gesellschaft zur förderung, helmholtz-gemeinschaft, leibniz-gemeinschaft,
                            industrie- und handelskammer, handwerkskammer, universitätsklinikum, landesbetrieb,
-                           eingetragene genossenschaft, wirtschaftsförderungsgesellschaft]
+                           eingetragene genossenschaft, wirtschaftsförderungsgesellschaft, zweckverband]
   # Weich: klingt nach Förderer, Netzwerk, Event oder Medium statt nach Startup
   support_org_markers: [wir unterstützen startups, wir unterstützen gründer, we support startups,
                         unsere startups, our startups, für gründerinnen und gründer, startup-ökosystem,
@@ -197,8 +201,32 @@ startup_check:
   large_company_markers: [mitarbeiter weltweit, mitarbeitende weltweit, employees worldwide, börsennotiert,
                           listed on the, tochtergesellschaft der, a subsidiary of, standorte weltweit,
                           locations worldwide, jahrzehnten erfahrung, decades of experience]
+  # Weich: klingt nach Agentur, Kanzlei, Beratung, Medium oder Bildungsträger
+  no_startup_markers: [digitalagentur, werbeagentur, internetagentur, full-service-agentur, rechtsanwälte,
+                       rechtsanwaltskanzlei, law firm, steuerberatung, steuerberater, wirtschaftsprüfung,
+                       unternehmensberatung, fachmagazin, standortinitiative, weiterbildung für, bildungsträger,
+                       in der dritten generation, in der vierten generation, in der fünften generation,
+                       in der sechsten generation, familienunternehmen, traditionsunternehmen, iso 9001, iso-9001]
   # Weich: diese Rechtsformen kurz prüfen (Impact-Startups sind manchmal gGmbH oder e.V.)
   review_legal_forms: [e.V.]
+
+# ------------------------------------------------------------
+# KI-Prüfung (optional). Prüft nur die Kandidaten, die die Regeln schon durchgelassen haben:
+# Startup ja/nein, sauberer Name, kurze Beschreibung, Kategorie, Ort.
+# Braucht einen API-Schlüssel als GitHub-Secret (Name siehe key_env). Ohne Schlüssel läuft alles regelbasiert.
+# Funktioniert mit jedem OpenAI-kompatiblen Anbieter – nur base_url, model und Secret ändern.
+# ------------------------------------------------------------
+ai:
+  enabled: true
+  base_url: https://api.mistral.ai/v1/chat/completions
+  model: mistral-small-latest
+  key_env: AI_API_KEY
+  batch_size: 6            # Firmen pro Anfrage
+  max_chars_per_site: 2500 # so viel Website-Text pro Firma geht an die KI
+  delay_s: 1.5             # Pause zwischen Anfragen (Mistral kostenlos: max. 1 Anfrage pro Sekunde)
+  max_calls: 120           # Obergrenze pro Lauf
+  confirm_review: true     # KI darf Grenzfälle aus "Prüfen" in die Liste holen
+  trust_category: true     # KI-Kategorie hat Vorrang vor den Stichwort-Treffern
 
 # ------------------------------------------------------------
 # Empfehlungen fürs Startup Village (oben im HTML-Bericht und in der Mail)
@@ -208,6 +236,12 @@ empfehlungen:
   anzahl: 10                 # so viele Empfehlungen oben im Bericht
   neue_zuerst: true          # Treffer aus dem aktuellen Lauf bevorzugen
   ohne_kontaktstatus: true   # Startups mit ausgefülltem Kontaktstatus (Excel) nicht mehr empfehlen
+  # Mindestanforderungen – sonst keine Empfehlung, egal wie viele Punkte:
+  pflicht:
+    email: true                  # generische Kontaktadresse gefunden
+    standort_deutschland: true   # Sitz in Deutschland bekannt
+    gruendung_oder_phase: true   # Gründungsjahr oder Entwicklungsphase gefunden
+    ki_bestaetigt: true          # wenn die KI lief: von ihr als Startup bestätigt
   punkte:
     region:    {"Aachen / Region": 4, "NRW": 2}
     phase:     {"Idee / Gründung": 3, "Pre-Seed / Prototyp": 3, "Seed": 2, "Wachstum": 0}

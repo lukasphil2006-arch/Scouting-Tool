@@ -5,7 +5,7 @@ import os
 
 import yaml
 
-from . import enrich, mailer, output, report, scoring, sources
+from . import ai, enrich, mailer, output, report, scoring, sources
 from . import master as ms
 from . import state as st
 from .net import Fetcher, domain_of, host_only
@@ -23,6 +23,8 @@ def main(argv=None):
     ap.add_argument("--config", default="config.yaml")
     ap.add_argument("--out", default="output")
     ap.add_argument("--dry-run", action="store_true", help="kein Merkzettel-Update, kein Mailversand")
+    ap.add_argument("--recheck", action="store_true",
+                    help="alle Einträge der Gesamtliste mit den aktuellen Regeln (und KI) neu prüfen, keine neuen Quellen, keine Mail")
     args = ap.parse_args(argv)
 
     with open(args.config, encoding="utf-8") as f:
@@ -36,9 +38,23 @@ def main(argv=None):
     blocked = load_blocklist(run["blocklist_file"])
     print(f"Merkzettel: {len(state['seen'])} Einträge ({purged} wegen Löschfrist entfernt), Sperrliste: {len(blocked)}")
 
+    master_path = run.get("master_file", "data/gesamtliste.xlsx")
+    master = ms.load(master_path)
+    recheck_domains = set()
+    if args.recheck:
+        rows = list(master["startups"].values()) + list(master["review"].values())
+        candidates = [{"url": r["url"], "source": r.get("quelle") or "Gesamtliste", "name_hint": ""} for r in rows if r.get("url")]
+        recheck_domains = {r["domain"] for r in rows}
+        state["seen"] = {d: v for d, v in state["seen"].items() if d not in recheck_domains}
+        print(f"Neu-Prüfung: {len(candidates)} Einträge aus der Gesamtliste")
+        run["max_candidates"] = max(run["max_candidates"], len(candidates))
+        run["max_focus"] = run["max_other"] = run["max_review"] = 10_000
+    else:
+        candidates = sources.collect(cfg, fetcher)
+
     # 1) Kandidaten sammeln und bereinigen
     todo, seen_now = [], set()
-    for c in sources.collect(cfg, fetcher):
+    for c in candidates:
         d = domain_of(c["url"])
         h = host_only(d)
         if not d or d in seen_now or d in state["seen"]:
@@ -71,10 +87,22 @@ def main(argv=None):
             st.mark(state, domain_of(c["url"]), "unreachable", today)
             continue
         info["source"], info["source_url"] = c["source"], c.get("source_url", "")
+        info["strict"] = c.get("strict", False)
         stats[c["source"]]["geprüft"] += 1
         scoring.evaluate(info, cfg, today)
         results.append(info)
         print(f"  {info['name'][:30]:30} score={info['score']:>2} bucket={info['bucket']} {info['reject_reason']}")
+
+    # 2b) Optional: KI prüft die vorgefilterten Kandidaten (Startup ja/nein, Name, Beschreibung, Ort)
+    checker = ai.Checker(cfg)
+    pending = [r for r in results if r["bucket"]]
+    if checker.enabled and pending:
+        print(f"KI-Prüfung für {len(pending)} vorgefilterte Kandidaten ({checker.model}) …")
+        for r, verdict in zip(pending, checker.check(pending)):
+            ai.apply(r, verdict, cfg, today.year)
+            r["region"] = scoring.classify_region(r.get("plz", ""), cfg["regions"], r.get("country", ""))["name"]
+            if verdict is not None:
+                print(f"  {r['name'][:30]:30} -> {r['bucket'] or 'raus'}  {r.get('ai_note', '')[:80]}")
 
     focus, other, review = scoring.select(results, cfg)
     delivered = {r["domain"] for r in focus + other}
@@ -89,10 +117,15 @@ def main(argv=None):
             print(f"  {r['name'][:30]:30} {r['review_notes']}")
 
     # 3) Gesamtliste (Backup) fortschreiben
-    master_path = run.get("master_file", "data/gesamtliste.xlsx")
     retention = run.get("master_retention_days", run["retention_days"])
-    master = ms.load(master_path)
     dropped = ms.purge(master, today, retention)
+    if recheck_domains:  # was jetzt kein Startup mehr ist, fliegt aus der Gesamtliste
+        keep = {r["domain"] for r in focus + other + review}
+        removed = [d for d in recheck_domains if d not in keep]
+        for sheet in master.values():
+            for d in removed:
+                sheet.pop(d, None)
+        print(f"Neu-Prüfung: {len(removed)} Einträge entfernt, {len(keep)} bleiben")
     for bereich, rows in (("Fokus", focus), ("Weitere", other)):
         for r in rows:
             ms.upsert(master, "startups", ms.to_row(r, bereich, scoring.primary_category(r, cfg), today))
@@ -117,7 +150,9 @@ def main(argv=None):
 
     if not args.dry_run:
         mail_ok = True
-        if focus or other or review:
+        if args.recheck:
+            print("Neu-Prüfung: keine Mail. Bericht und Gesamtliste liegen im Archiv des Laufs.")
+        elif focus or other or review:
             try:
                 mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} neue Fokus-Treffer",
                             output.mail_text(focus, other, review, master, meta, recs), attachments)

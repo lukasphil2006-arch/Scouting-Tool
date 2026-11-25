@@ -70,6 +70,9 @@
   .badge.star { background: #f0b429; color: #3d2b00; }
   .card.flash { outline: 3px solid #f0b429; }
   @media (max-width: 760px) { .recs li { grid-template-columns: 28px 1fr; } .recs .why, .recs .lk { grid-column: 2; } .recs { padding: 18px 16px 4px; } }
+  .card .why { font-size: 12.5px; color: #3a3a37; background: #f4f5f1; border-radius: 8px; padding: 6px 9px; }
+  .card .why b { color: var(--muted); font-weight: 600; }
+  select option.sub { color: var(--muted); }
   .empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 60px 0; }
   footer { padding: 0 32px 32px; font-size: 12px; color: var(--muted); }
 
@@ -98,17 +101,18 @@
 <div class="controls">
   <div class="chips" id="katChips"></div>
   <input type="search" id="q" placeholder="Suche: Name, Sektor, Ort, Stichwort …">
-  <select id="phase"><option value="">Alle Phasen</option></select>
-  <select id="ort"><option value="">Alle Regionen</option></select>
-  <select id="jahr"><option value="">Jedes Gründungsjahr</option></select>
-  <select id="sort">
+  <select id="region" title="Region – übergeordnete Regionen enthalten die untergeordneten"></select>
+  <select id="phase" title="Entwicklungsphase"></select>
+  <select id="jahr" title="Gründungsjahr"></select>
+  <select id="sort" title="Sortierung">
     <option value="neu">Neueste zuerst</option>
+    <option value="fit">Passung Startup Village</option>
     <option value="name">Name A–Z</option>
     <option value="jahr">Gründungsjahr ↓</option>
-    <option value="fit">Passung Startup Village</option>
     <option value="score">Themen-Score</option>
   </select>
   <label class="toggle"><input type="checkbox" id="onlyNew"> nur neue</label>
+  <button class="btn" id="reset">Filter zurücksetzen</button>
   <button class="btn" id="csv">Auswahl als CSV</button>
   <button class="btn" onclick="window.print()">Drucken / PDF</button>
   <span class="count" id="count"></span>
@@ -119,8 +123,11 @@
 
 <script>
 const DATA = {{DATA}};
+const REGIONS = {{REGIONS}};   // [{name, depth}] in Baum-Reihenfolge
+const PHASES = {{PHASES}};
 const KATS = { Greentech: "--greentech", Impact: "--impact", Deeptech: "--deeptech", Weitere: "--weitere" };
-const state = { kats: new Set(["Greentech", "Impact", "Deeptech"]), q: "", phase: "", ort: "", jahr: "", onlyNew: false, sort: "neu" };
+const DEFAULT = () => ({ kats: new Set(["Greentech", "Impact", "Deeptech"]), q: "", region: "", phase: "", jahr: "", onlyNew: false, sort: "neu" });
+let state = DEFAULT();
 const $ = id => document.getElementById(id);
 const colorOf = k => `var(${KATS[k] || "--weitere"})`;
 const el = (tag, props = {}, ...kids) => {
@@ -131,63 +138,90 @@ const el = (tag, props = {}, ...kids) => {
   kids.flat().forEach(c => c != null && n.append(c));
   return n;
 };
-const catsOf = d => [d.kategorie || "Weitere", ...String(d.themen || "").split(",").map(t => t.trim()).filter(Boolean)];
-const uniq = key => [...new Set(DATA.map(d => d[key]).filter(Boolean))].sort();
 const url = u => !u ? "" : (/^https?:\/\//i.test(u) ? u : "https://" + u);
+const catsOf = d => [...new Set([d.kategorie || "Weitere", ...String(d.themen || "").split(",").map(t => t.trim()).filter(Boolean)])];
+const year = d => parseInt(d.gegruendet, 10) || 0;
+const phaseOf = d => d.phase || "unbekannt";
+const haystack = d => [d.name, d.sektor, d.ort, d.region, d.land, d.beschreibung, d.kategorie, d.themen, d.quelle, d.warum, d.ki]
+  .join(" ").toLowerCase();
 
-// Statistik
-const nNew = DATA.filter(d => d.neu).length;
+// Ein Eintrag passt, wenn er ALLE Filter erfüllt. `skip` lässt einen Filter weg – für die Zahlen in den Auswahllisten.
+function passes(d, skip = "") {
+  if (skip !== "kat" && !catsOf(d).some(c => state.kats.has(c))) return false;
+  if (skip !== "region" && state.region && !(d.regionen || []).includes(state.region)) return false;  // NRW enthält Aachen
+  if (skip !== "phase" && state.phase && phaseOf(d) !== state.phase) return false;
+  if (skip !== "jahr" && state.jahr && year(d) < +state.jahr) return false;
+  if (skip !== "neu" && state.onlyNew && !d.neu) return false;
+  if (skip !== "q" && state.q && !state.q.split(/\s+/).every(w => haystack(d).includes(w))) return false;
+  return true;
+}
+const count = (skip, test) => DATA.filter(d => passes(d, skip) && test(d)).length;
+
+// Kopfzeile: Zahlen über alle Einträge (unabhängig von Filtern)
 $("stats").append(
   el("div", {}, el("b", { textContent: DATA.length }), el("span", { textContent: "Startups gesamt" })),
-  el("div", {}, el("b", { textContent: nNew }), el("span", { textContent: "neu seit letzter Liste" })),
-  ...Object.keys(KATS).map(k => el("div", {}, el("b", { textContent: DATA.filter(d => (d.kategorie || "Weitere") === k).length }), el("span", { textContent: k })))
+  el("div", {}, el("b", { textContent: DATA.filter(d => d.neu).length }), el("span", { textContent: "neu in diesem Lauf" })),
+  ...Object.keys(KATS).map(k => el("div", {}, el("b", { textContent: DATA.filter(d => catsOf(d).includes(k)).length }), el("span", { textContent: k })))
 );
 
-// Kategorie-Chips (Weitere ist der zweite, schaltbare Filter)
+// Bedienelemente
+const chipEls = {};
 for (const k of Object.keys(KATS)) {
-  const n = DATA.filter(d => catsOf(d).includes(k)).length;
-  const b = el("button", { className: "chip" + (state.kats.has(k) ? " on" : ""), style: `--c:${colorOf(k)}` }, k, el("span", { className: "n", textContent: n }));
-  b.onclick = () => { state.kats.has(k) ? state.kats.delete(k) : state.kats.add(k); b.classList.toggle("on"); render(); };
+  const n = el("span", { className: "n" });
+  const b = el("button", { className: "chip", style: `--c:${colorOf(k)}` }, k, n);
+  b.onclick = () => { state.kats.has(k) ? state.kats.delete(k) : state.kats.add(k); render(); };
+  chipEls[k] = { b, n };
   $("katChips").append(b);
 }
-uniq("phase").forEach(v => $("phase").append(el("option", { value: v, textContent: v })));
-uniq("region").forEach(v => $("ort").append(el("option", { value: v, textContent: v })));
-[...new Set(DATA.map(d => +d.gegruendet || 0).filter(Boolean))].sort((a, b) => b - a)
-  .forEach(v => $("jahr").append(el("option", { value: v, textContent: "ab " + v })));
+const years = [...new Set(DATA.map(year).filter(Boolean))].sort((a, b) => b - a);
 
-$("q").oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
+function fillSelect(sel, allLabel, items, skip, test, key) {
+  sel.replaceChildren(el("option", { value: "", textContent: `${allLabel} (${count(skip, () => true)})` }),
+    ...items.map(it => el("option", { value: it.value, className: it.depth ? "sub" : "",
+      textContent: `${"\u2003".repeat(it.depth || 0)}${it.label} (${count(skip, d => test(d, it.value))})` })));
+  sel.value = state[key];
+}
+
+function updateControls(syncSearch = true) {
+  for (const [k, { b, n }] of Object.entries(chipEls)) {
+    b.classList.toggle("on", state.kats.has(k));
+    n.textContent = count("kat", d => catsOf(d).includes(k));
+  }
+  fillSelect($("region"), "Alle Regionen", REGIONS.map(r => ({ value: r.name, label: r.name, depth: r.depth })),
+    "region", (d, v) => (d.regionen || []).includes(v), "region");
+  fillSelect($("phase"), "Alle Phasen", PHASES.map(p => ({ value: p, label: p === "unbekannt" ? "Phase unbekannt" : p })),
+    "phase", (d, v) => phaseOf(d) === v, "phase");
+  fillSelect($("jahr"), "Jedes Gründungsjahr", years.map(y => ({ value: String(y), label: `ab ${y}` })),
+    "jahr", (d, v) => year(d) >= +v, "jahr");
+  if (syncSearch) $("q").value = state.q;
+  $("onlyNew").checked = state.onlyNew; $("sort").value = state.sort;
+}
+
+$("q").oninput = e => { state.q = e.target.value.toLowerCase().trim(); render(false); };
+$("region").onchange = e => { state.region = e.target.value; render(); };
 $("phase").onchange = e => { state.phase = e.target.value; render(); };
-$("ort").onchange = e => { state.ort = e.target.value; render(); };
 $("jahr").onchange = e => { state.jahr = e.target.value; render(); };
 $("sort").onchange = e => { state.sort = e.target.value; render(); };
 $("onlyNew").onchange = e => { state.onlyNew = e.target.checked; render(); };
+$("reset").onclick = () => { state = DEFAULT(); render(); };
 
-function filtered() {
-  const r = DATA.filter(d =>
-    catsOf(d).some(c => state.kats.has(c)) &&
-    (!state.phase || d.phase === state.phase) &&
-    (!state.ort || d.region === state.ort) &&
-    (!state.jahr || (+d.gegruendet || 0) >= +state.jahr) &&
-    (!state.onlyNew || d.neu) &&
-    (!state.q || [d.name, d.sektor, d.ort, d.region, d.beschreibung, d.kategorie, d.themen, d.quelle].join(" ").toLowerCase().includes(state.q))
-  );
-  const by = {
-    fit: (a, b) => (b.fit || 0) - (a.fit || 0) || (+b.score || 0) - (+a.score || 0),
-    score: (a, b) => (+b.score || 0) - (+a.score || 0),
-    name: (a, b) => (a.name || "").localeCompare(b.name || "", "de"),
-    jahr: (a, b) => (+b.gegruendet || 0) - (+a.gegruendet || 0),
-    neu: (a, b) => (b.neu - a.neu) || String(b.erstmals).localeCompare(String(a.erstmals)) || (+b.score || 0) - (+a.score || 0),
-  };
-  return r.sort(by[state.sort]);
-}
+const SORTS = {
+  neu: (a, b) => (b.neu - a.neu) || String(b.erstmals).localeCompare(String(a.erstmals)) || (b.fit || 0) - (a.fit || 0),
+  fit: (a, b) => (b.fit || 0) - (a.fit || 0) || (+b.score || 0) - (+a.score || 0),
+  name: (a, b) => (a.name || "").localeCompare(b.name || "", "de"),
+  jahr: (a, b) => year(b) - year(a),
+  score: (a, b) => (+b.score || 0) - (+a.score || 0),
+};
 
 function card(d) {
   const k = d.kategorie || "Weitere";
-  const themen = String(d.themen || "").split(",").map(t => t.trim()).filter(t => t && t !== k);
-  const ort = [d.ort, d.region && d.region !== d.ort ? d.region : ""].filter(Boolean).join(" · ");
+  const themen = catsOf(d).filter(t => t !== k);
+  const ort = [d.ort, d.region !== "Unbekannt" ? d.region : "", d.land && d.land !== "Deutschland" ? d.land : ""]
+    .filter((v, i, a) => v && a.indexOf(v) === i).join(" · ");
   const meta = [["Sektor", d.sektor], ["Phase", d.phase !== "unbekannt" ? d.phase : ""], ["Gegründet", d.gegruendet],
                 ["Standort", ort], ["Rechtsform", d.rechtsform], ["Passt zu", d.programm]]
     .filter(([, v]) => v).flatMap(([a, b]) => [el("dt", { textContent: a }), el("dd", { textContent: b })]);
+  const why = d.ki ? String(d.ki).replace(/^Startup \([^)]*\):\s*/, "") : d.warum;
   return el("article", { className: "card", id: "c-" + d.domain, style: `--c:${colorOf(k)}` },
     el("h2", {}, d.name || "–", d.neu ? el("span", { className: "badge new", textContent: "neu" }) : null,
       d.empfohlen ? el("span", { className: "badge star", textContent: "★ Empfehlung" }) : null),
@@ -195,6 +229,7 @@ function card(d) {
       themen.map(t => el("span", { className: "badge", style: `--c:${colorOf(t)}`, textContent: t }))),
     el("dl", { className: "meta" }, meta),
     d.beschreibung ? el("p", { className: "desc", textContent: d.beschreibung }) : null,
+    why ? el("div", { className: "why" }, el("b", { textContent: d.ki ? "Geprüft: " : "Warum in der Liste: " }), why) : null,
     el("div", { className: "links" },
       d.url ? el("a", { href: url(d.url), target: "_blank", rel: "noopener", textContent: "Website ↗" }) : null,
       d.email ? el("a", { href: "mailto:" + d.email, textContent: d.email })
@@ -204,23 +239,24 @@ function card(d) {
 }
 
 let current = [];
-function render() {
-  current = filtered();
-  $("list").replaceChildren(...(current.length ? current.map(card) : [el("div", { className: "empty", textContent: "Keine Startups für diese Filter." })]));
+function render(controls = true) {
+  current = DATA.filter(d => passes(d)).sort(SORTS[state.sort]);
+  updateControls(controls);   // beim Tippen das Suchfeld nicht überschreiben
+  $("list").replaceChildren(...(current.length ? current.map(card)
+    : [el("div", { className: "empty", textContent: "Keine Startups für diese Filter." })]));
   $("count").textContent = `${current.length} von ${DATA.length} angezeigt`;
 }
 
 $("csv").onclick = () => {
-  const cols = ["name", "kategorie", "themen", "sektor", "phase", "gegruendet", "ort", "region", "url", "email", "beschreibung", "quelle", "erstmals"];
+  const cols = ["name", "kategorie", "themen", "sektor", "phase", "gegruendet", "ort", "region", "land", "url", "email", "beschreibung", "warum", "quelle", "erstmals"];
   const esc = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  const csv = "﻿" + [cols.join(";"), ...current.map(d => cols.map(c => esc(d[c])).join(";"))].join("\r\n");
+  const csv = "\ufeff" + [cols.join(";"), ...current.map(d => cols.map(c => esc(d[c])).join(";"))].join("\r\n");
   const a = el("a", { href: URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })), download: "startup-auswahl.csv" });
   document.body.append(a); a.click(); a.remove();
 };
 
 function showCard(d) {
-  if (!state.kats.has(d.kategorie)) { state.kats.add(d.kategorie); [...$("katChips").children].forEach(b => { if (b.firstChild.textContent === d.kategorie) b.classList.add("on"); }); }
-  render();
+  state = DEFAULT(); state.kats.add(d.kategorie || "Weitere"); render();
   const c = document.getElementById("c-" + d.domain);
   if (c) { c.scrollIntoView({ behavior: "smooth", block: "center" }); c.classList.add("flash"); setTimeout(() => c.classList.remove("flash"), 1800); }
 }

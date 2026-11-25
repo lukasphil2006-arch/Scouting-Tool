@@ -30,6 +30,34 @@ an einen Verteiler.
    damit Institute nicht über Wörter wie „Förderung“ oder „Universität“ durchrutschen.
 4. **Gründungsjahr** wird auch aus „seit 1983“ / „since 1983“ gelesen, damit alte Firmen rausfallen.
 
+5. **Gemischte Quellen** (z. B. Mitgliederlisten) sind in `config.yaml` mit `streng: true` markiert:
+   Einträge daraus brauchen ein Gründungsjahr als Beleg oder die Bestätigung der KI.
+
+## KI-Prüfung (optional, empfohlen)
+Die Regeln filtern vor, danach liest eine KI nur die übrig gebliebenen Kandidaten und liefert:
+Startup ja/nein mit Begründung, sauberen Namen, eine kurze Beschreibung auf Deutsch, Kategorie, Ort und Land.
+Geschickt wird nur öffentlicher Text von Startseite und „Über uns“ – kein Impressum, keine Personennamen.
+
+Einrichten (einmalig):
+1. Kostenloses Konto bei Mistral anlegen (console.mistral.ai), Tarif „Experiment“ (kostenlos) wählen
+   und einen API-Schlüssel erzeugen. Hinweis: Im kostenlosen Tarif darf Mistral die Anfragen zum Training nutzen.
+2. Im Repo unter *Settings → Secrets and variables → Actions* ein Secret **`AI_API_KEY`** mit dem Schlüssel anlegen.
+3. Fertig. Ohne Secret (oder wenn die KI ausfällt) läuft der Scout wie bisher regelbasiert.
+
+Anbieter wechseln: In `config.yaml` unter `ai` nur `base_url` und `model` ändern (jede OpenAI-kompatible
+Schnittstelle funktioniert) und den neuen Schlüssel ins Secret `AI_API_KEY` legen.
+
+## Gesamtliste neu prüfen
+Nach Änderungen an Regeln oder nach dem Einrichten der KI: *Actions → Startup Scouting → Run workflow*,
+Haken bei **„Gesamtliste … neu prüfen“** setzen. Alle bisherigen Einträge werden mit den aktuellen Regeln neu bewertet,
+Nicht-Startups fliegen raus. Es werden keine neuen Quellen gelesen und keine Mail verschickt;
+Bericht und Gesamtliste liegen danach im Archiv des Laufs und im Repo.
+
+## Regionen im Bericht
+Die Regionen sind verschachtelt: **Deutschland ⊃ NRW ⊃ Aachen / Region**. Wer „NRW“ wählt, sieht auch Aachen.
+Firmen mit Sitz im Ausland stehen unter „Ausland“, ohne erkennbaren Sitz unter „Unbekannt“.
+Die Zahlen in Auswahllisten und Kategorie-Knöpfen zeigen immer, wie viele Treffer es mit den übrigen Filtern gäbe.
+
 Rutscht trotzdem etwas durch: Domain in `blocklist.txt` (einmalig, nie wieder) oder in
 `startup_check.exclude_domains` eintragen – direkt im Browser auf GitHub, ohne Code.
 

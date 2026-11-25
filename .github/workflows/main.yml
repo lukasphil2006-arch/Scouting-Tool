@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 5 1 * *"      # am 1. jedes Monats, 6 Uhr deutscher Zeit (Winter)
   workflow_dispatch:
+    inputs:
+      neu_pruefen:
+        description: "Gesamtliste mit den aktuellen Regeln/KI neu prüfen (keine neuen Quellen, keine Mail)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -24,7 +29,7 @@ jobs:
           cache-dependency-path: startup-scout/requirements.txt
       - run: pip install -r requirements.txt
       - name: Scouting ausführen
-        run: python -m scout.main --config config.yaml --out output
+        run: python -m scout.main --config config.yaml --out output ${{ inputs.neu_pruefen && '--recheck' || '' }}
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -32,6 +37,7 @@ jobs:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_FROM: ${{ secrets.MAIL_FROM }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
       - name: Liste als Archiv ablegen
         uses: actions/upload-artifact@v4
         with:

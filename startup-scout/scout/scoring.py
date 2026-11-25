@@ -9,6 +9,8 @@ _PATTERNS = {}
 DEFAULT_EXCLUDE = [
     "we invest in", "our portfolio", "portfolio companies", "portfolio-unternehmen", "venture capital firm",
     "venture capital fund", "investment firm", "we back founders", "werbeartikel", "werbegeschenk", "giveaway",
+    "online casino", "casino ohne", "casinos ohne", "sportwetten", "poker", "slot machines", "domain kaufen",
+    "this domain is for sale", "diese domain kaufen",
 ]
 
 
@@ -37,13 +39,28 @@ def theme_scores(text: str, themes: dict):
     return res
 
 
-def classify_region(plz: str, regions: list):
-    for r in regions:
-        if not r["plz"] and not plz:
-            return r
-        if plz and any(plz.startswith(p) for p in r["plz"]):
-            return r
-    return regions[-1]
+def classify_region(plz: str, regions: list, country: str = ""):
+    """Erste passende Region. Ausländische Firmen -> Region mit ausland: true.
+    Deutsche Firma ohne Postleitzahl -> "Deutschland"."""
+    if country and country != "Deutschland":
+        return next((r for r in regions if r.get("ausland")), regions[-1])
+    if plz:
+        for r in regions:
+            if r["plz"] and any(plz.startswith(p) for p in r["plz"]):
+                return r
+    if country == "Deutschland":
+        return next((r for r in regions if r["name"] == "Deutschland"), regions[-1])
+    return next((r for r in regions if not r["plz"] and not r.get("ausland")), regions[-1])
+
+
+def region_path(name: str, regions: list):
+    """["Aachen / Region", "NRW", "Deutschland"] – für hierarchische Filter."""
+    by = {r["name"]: r for r in regions}
+    out, cur = [], name
+    while cur and cur not in out:
+        out.append(cur)
+        cur = by.get(cur, {}).get("teil_von")
+    return out
 
 
 def detect_phase(text: str, phases: list) -> str:
@@ -73,7 +90,7 @@ def evaluate(info: dict, cfg: dict, today):
     spinoff = bool(_hits(text, cfg["signals"]["spinoff"]))
     info["funding"], info["spinoff"] = funding, spinoff
 
-    region = classify_region(info.get("plz", ""), cfg["regions"])
+    region = classify_region(info.get("plz", ""), cfg["regions"], info.get("country", ""))
     info["region"] = region["name"]
 
     founded = info.get("founded")
@@ -84,6 +101,8 @@ def evaluate(info: dict, cfg: dict, today):
     hard, soft = startup_check.check(info, cfg.get("startup_check", {}))
     if hard:
         reasons.append(hard)
+    if info.get("strict") and not (age is not None and age <= flt["max_age_years"]):
+        soft.append("Quelle mischt Startups und andere Firmen, kein Gründungsjahr als Beleg")
     info["review_notes"] = "; ".join(soft)
     if _hits(text, cfg.get("exclude_markers", DEFAULT_EXCLUDE)):
         reasons.append("Investor/Werbeseite, kein Startup")
@@ -105,6 +124,20 @@ def evaluate(info: dict, cfg: dict, today):
     if age is not None:
         bonus += sc["age_bonus_young"] if age <= 3 else (sc["age_bonus_ok"] if age <= 5 else 0)
     info["score"] = base + bonus
+
+    why = []
+    if founded:
+        why.append(f"gegründet {founded}")
+    if info["phase"] != "unbekannt":
+        why.append(info["phase"])
+    if funding:
+        why.append("Förderung/Finanzierung erwähnt")
+    if spinoff:
+        why.append("Ausgründung")
+    kw = [h for n in focus_hit for h in th[n][1]][:4]
+    if kw:
+        why.append("Stichworte: " + ", ".join(dict.fromkeys(kw)))
+    info["warum"] = " · ".join(why)
 
     info["bucket"] = None
     info["reject_reason"] = ", ".join(reasons)
@@ -130,6 +163,9 @@ def select(results: list, cfg: dict):
 
 def primary_category(r: dict, cfg: dict) -> str:
     """Hauptkategorie für Bericht und Filter: stärkstes Fokus-Thema, sonst "Weitere"."""
+    labels = cfg.get("category_labels", {})
+    if r.get("ai_category"):
+        return labels.get(r["ai_category"], "Weitere" if r["ai_category"] == "weitere" else r["ai_category"].capitalize())
     if not r.get("themes"):
         return "Weitere"
     pts = r.get("theme_points", {})

@@ -46,7 +46,19 @@ Energiespeicher, erneuerbare Energien, Dekarbonisierung.</p><a href="/impressum.
 <meta name="description" content="Wir unterstützen Startups aus Greentech und Cleantech."></head><body><h1>Unsere Startups</h1>
 <p>Gegründet 2021. Accelerator-Programm für Klimaschutz, Energiewende, Kreislaufwirtschaft. Seed-Runde.</p><a href="/impressum.html">Impressum</a></body></html>""",
      "<html><body>Greentech Hub GmbH, Domstr. 1, 50667 Köln. kontakt@hub-demo.example</body></html>"),
+    8108: ("Birkenwerk", """<html><head><title>Home</title>
+<meta name="description" content="Wir entwickeln CO2-neutrale Baustoffe aus Recycling-Material für die Energiewende."></head>
+<body><h1>Kreislaufwirtschaft für den Bau</h1><p>Gegründet 2023. Seed-Runde 2025. Dekarbonisierung, Klimaschutz,
+erneuerbare Energien, Ressourceneffizienz.</p><a href="/impressum.html">Impressum</a></body></html>""",
+     "<html><body>Birkenwerk GmbH, Hauptstr. 1, 52062 Aachen Vertreten durch die Geschäftsführung. "
+     "info@birkenwerk-demo.example</body></html>"),
 }
+
+# Fake-KI: antwortet wie eine OpenAI/Mistral-kompatible Schnittstelle, deterministisch pro Port
+AI_PORT = 8199
+AI_NAMES = {"8101": "Gruenstrom Aachen", "8102": "Quantenwerk", "8105": "SocialLift", "8108": "Birkenwerk"}
+AI_KATS = {"8101": "Greentech", "8102": "Deeptech", "8105": "Impact", "8108": "Greentech"}
+AI_NO = {"8103": "Kaffee-Abo-Händler ohne eigene Innovation", "8107": "Netzwerk/Accelerator, kein Startup"}
 
 FEED = """<?xml version="1.0"?><rss version="2.0"><channel><title>Demo</title>
 <item><title>Aachener Startup sammelt Geld ein</title><link>http://localhost:8100/a1.html</link>
@@ -90,6 +102,7 @@ def build():
     open(os.path.join(feed, "directory.html"), "w", encoding="utf-8").write(
         '<html><body><a href="http://localhost:8105/">SocialLift</a> <a href="http://localhost:8101/">Gruenstrom</a>'
         ' <a href="http://localhost:8106/">Institut</a> <a href="http://localhost:8107/">Hub</a>'
+        ' <a href="http://localhost:8108/">Birkenwerk</a>'
         ' <a href="https://www.linkedin.com/x">LinkedIn</a></body></html>')
     open(os.path.join(feed, "list.json"), "w", encoding="utf-8").write(
         '{"items":[{"name":"Quantenwerk","website":"http://localhost:8102/"},{"name":"X","other":{"u":"http://localhost:8103/"}}]}')
@@ -102,9 +115,45 @@ def build():
         f.write("name,website,source,note\nSocialLift,http://localhost:8105/,Förderliste,\nAltBau,http://localhost:8104/,Förderliste,\n")
 
 
+class FakeAI(http.server.BaseHTTPRequestHandler):
+    calls = 0
+
+    def log_message(self, *a):
+        pass
+
+    def do_POST(self):
+        import json
+        body = json.loads(self.rfile.read(int(self.headers.get("Content-Length", 0))))
+        assert self.headers.get("Authorization") == "Bearer test", "API-Schlüssel fehlt im Header"
+        FakeAI.calls += 1
+        firmen = json.loads(body["messages"][-1]["content"])["firmen"]
+        res = []
+        for f in firmen:
+            port = f["website"].rsplit(":", 1)[-1]
+            ort = " ".join(w for w in (f.get("ort_laut_regeln") or "").split() if not w.isdigit())
+            if port in AI_NO:
+                res.append({"id": f["id"], "ist_startup": False, "sicherheit": "hoch", "grund": AI_NO[port]})
+            else:
+                res.append({"id": f["id"], "ist_startup": True, "sicherheit": "hoch", "grund": "Junges Technologie-Startup.",
+                            "name": AI_NAMES.get(port, f["seitentitel_name"]),
+                            "beschreibung": f"Testbeschreibung von der KI für {f['website']}.",
+                            "kategorie": AI_KATS.get(port, "Weitere"), "land": "Deutschland", "stadt": ort,
+                            "gruendungsjahr": None})
+        out = json.dumps({"choices": [{"message": {"content": json.dumps({"results": res})}}]}).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(out)))
+        self.end_headers()
+        self.wfile.write(out)
+
+
 def main():
     build()
     servers = [serve(8100, os.path.join(DEMO, "feed"))] + [serve(p, os.path.join(DEMO, f"s{p}")) for p in SITES]
+    ai_srv = http.server.ThreadingHTTPServer(("127.0.0.1", AI_PORT), FakeAI)
+    threading.Thread(target=ai_srv.serve_forever, daemon=True).start()
+    servers.append(ai_srv)
+    os.environ["AI_API_KEY"] = "test"
     cfg = yaml.safe_load(open(os.path.join(ROOT, "config.yaml"), encoding="utf-8"))
     cfg["run"].update({"request_delay_s": 0, "state_file": os.path.join(DEMO, "state.json"),
                        "blocklist_file": os.path.join(DEMO, "blocklist.txt"), "require_email_domain_match": False,
@@ -114,6 +163,7 @@ def main():
     cfg["sources"]["json"] = [{"name": "Demo-JSON", "url": "http://localhost:8100/list.json", "list_path": "items", "website_field": "website"}]
     cfg["sources"]["sitemaps"] = [{"name": "Demo-Portfolio", "url": "http://localhost:8100/sitemap.xml", "url_contains": "/portfolio/", "max_pages": 5}]
     cfg["sources"]["csv"] = [os.path.join(DEMO, "extra.csv")]
+    cfg["ai"].update({"enabled": True, "base_url": f"http://127.0.0.1:{AI_PORT}/v1/chat/completions", "delay_s": 0})
     cfg_path = os.path.join(DEMO, "config.yaml")
     yaml.safe_dump(cfg, open(cfg_path, "w", encoding="utf-8"), allow_unicode=True)
 
@@ -124,28 +174,79 @@ def main():
     run(["--config", cfg_path, "--out", os.path.join(DEMO, "out2")])
     for s in servers:
         s.shutdown()
+    assert FakeAI.calls > 0, "KI wurde nie aufgerufen"
     check(os.path.join(DEMO, "gesamtliste.xlsx"))
+    check_ai_without_key(cfg)
+    check_html(os.path.join(DEMO, "out"))
+    print("Alle Prüfungen bestanden.")
 
 
 def check(master_path):
-    """Prüft das Ergebnis: Institut raus, Netzwerk in "Prüfen", echte Startups in der Liste."""
+    """Prüft das Ergebnis: Institut raus, KI-Ablehnungen raus, echte Startups mit KI-Daten in der Liste."""
     from scout import master as ms
     from scout.startup_check import domain_reason
     data = ms.load(master_path)
-    names = {r["name"] for r in data["startups"].values()}
+    rows = list(data["startups"].values())
+    names = {r["name"] for r in rows}
     review = {r["name"] for r in data["review"].values()}
     print("\nGesamtliste:", sorted(names), "| Prüfen:", sorted(review))
-    assert {"Gruenstrom Aachen", "Quantenwerk", "SocialLift"} <= names, names
+    assert {"Gruenstrom Aachen", "Quantenwerk", "SocialLift", "Birkenwerk"} <= names, names
     assert not any("Institut" in n for n in names | review), "Institut hätte rausfliegen müssen"
-    assert any("Hub" in n for n in review), "Netzwerk hätte in 'Prüfen' landen müssen"
+    assert not any("Hub" in n for n in names), "Netzwerk darf nicht in der Liste stehen"
+    assert not any("Kaffee" in n for n in names), "Kaffeebox hätte von der KI abgelehnt werden müssen"
     assert "AltBau AG" not in names
+    assert "Home" not in names, "Seitentitel 'Home' darf kein Name sein"
+    for r in rows:
+        if r["name"] in ("Gruenstrom Aachen", "Quantenwerk", "SocialLift", "Birkenwerk"):
+            assert str(r.get("beschreibung") or "").startswith("Testbeschreibung"), (r["name"], r.get("beschreibung"))
+            assert str(r.get("ki") or "").startswith("Startup"), (r["name"], r.get("ki"))
+    birke = next(r for r in rows if r["name"] == "Birkenwerk")
+    assert birke.get("ort") == "Aachen", f"Ort falsch: {birke.get('ort')!r}"
     sc = yaml.safe_load(open(os.path.join(ROOT, "config.yaml"), encoding="utf-8"))["startup_check"]
     for d in ["ise.fraunhofer.de", "kit.edu", "bmftr.bund.de", "sparkasse-aachen.de", "uni-koeln.de", "efre.nrw"]:
         assert domain_reason(d, sc), d
     for d in ["sunfire.de", "greenventory.de", "existence-startup.de", "naion.tech"]:
         assert not domain_reason(d, sc), d
-    print("Alle Prüfungen bestanden.")
+    print("Gesamtliste: OK")
 
+
+def check_ai_without_key(cfg):
+    """Ohne Schlüssel muss die KI-Prüfung aus sein (Lauf bleibt regelbasiert)."""
+    from scout import ai
+    old = os.environ.pop("AI_API_KEY", None)
+    try:
+        assert ai.Checker(cfg).enabled is False, "KI darf ohne Schlüssel nicht aktiv sein"
+    finally:
+        if old is not None:
+            os.environ["AI_API_KEY"] = old
+    print("KI ohne Schlüssel aus: OK")
+
+
+def check_html(out_dir):
+    """Bericht im Browser: keine JS-Fehler, NRW enthält Aachen (hierarchischer Filter)."""
+    import glob
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("Playwright nicht installiert – Browser-Prüfung übersprungen.")
+        return
+    path = os.path.abspath(sorted(glob.glob(os.path.join(out_dir, "*.html")))[0])
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        pg = b.new_page()
+        errs = []
+        pg.on("pageerror", lambda e: errs.append(str(e)))
+        pg.goto("file://" + path)
+        values = pg.eval_on_selector_all("#region option", "os => os.map(o => o.value)")
+        assert "NRW" in values and "Aachen / Region" in values, values
+        pg.select_option("#region", "Aachen / Region")
+        n_aachen = pg.locator("#list article.card").count()
+        pg.select_option("#region", "NRW")
+        n_nrw = pg.locator("#list article.card").count()
+        b.close()
+    assert not errs, errs
+    assert n_aachen > 0 and n_nrw >= n_aachen, (n_aachen, n_nrw)
+    print(f"HTML-Bericht: OK (Aachen {n_aachen}, NRW {n_nrw})")
 
 if __name__ == "__main__":
     main()

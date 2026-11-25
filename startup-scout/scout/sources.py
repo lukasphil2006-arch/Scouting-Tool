@@ -225,6 +225,9 @@ def from_csv(path: str):
 def _tag(cands, entry):
     """Quellen mit status (z.B. 'ungeprüft') werden in Liste und Bilanz gekennzeichnet."""
     st = entry.get("status") if isinstance(entry, dict) else None
+    if isinstance(entry, dict) and entry.get("streng"):
+        for c in cands:
+            c["strict"] = True
     if st:
         for c in cands:
             c["source"] = f"{c['source']} [{st}]"

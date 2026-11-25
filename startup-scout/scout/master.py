@@ -19,7 +19,7 @@ COLUMNS = [
     ("Sektor", "sektor", 26), ("Ort", "ort", 16), ("PLZ", "plz", 8), ("Region", "region", 18),
     ("Gegründet", "gegruendet", 10), ("Phase", "phase", 18), ("Rechtsform", "rechtsform", 11),
     ("Score", "score", 7), ("Kurzbeschreibung", "beschreibung", 60), ("Quelle", "quelle", 20),
-    ("Prüfhinweis", "pruefhinweis", 40), ("Erstmals gefunden", "erstmals", 14), ("Zuletzt gesehen", "zuletzt", 14),
+    ("Warum in der Liste", "warum", 40), ("KI-Prüfung", "ki", 40), ("Prüfhinweis", "pruefhinweis", 40), ("Erstmals gefunden", "erstmals", 14), ("Zuletzt gesehen", "zuletzt", 14),
     ("Kontaktstatus", "kontaktstatus", 16), ("Notiz", "notiz", 30), ("Domain", "domain", 24),
 ]
 USER_FIELDS = ("kontaktstatus", "notiz")
@@ -55,7 +55,8 @@ def to_row(r: dict, bereich: str, kategorie: str, today: dt.date) -> dict:
         "bereich": bereich, "kategorie": kategorie, "name": r["name"], "url": r["url"],
         "email": r["emails"][0] if r["emails"] else "", "impressum": r.get("legal_page", ""),
         "themen": ", ".join(t.capitalize() for t in r["themes"]), "sektor": ", ".join(r["sectors"]),
-        "ort": r.get("city", ""), "plz": r.get("plz", ""), "region": r.get("region", ""),
+        "ort": r.get("city", ""), "plz": r.get("plz", ""), "region": r.get("region", ""), "land": r.get("country", ""),
+        "warum": r.get("warum", ""), "ki": r.get("ai_note", ""),
         "gegruendet": r.get("founded") or "", "phase": r.get("phase", ""), "rechtsform": r.get("legal_form", ""),
         "score": r.get("score", ""), "beschreibung": r.get("description", ""), "quelle": r.get("source", ""),
         "pruefhinweis": r.get("review_notes", ""), "erstmals": today.isoformat(), "zuletzt": today.isoformat(),
@@ -107,7 +108,7 @@ def save(path: str, data: dict, meta: dict):
         link_cols = [i for i, (_, f, _) in enumerate(COLUMNS) if f in ("url", "impressum")]
         for row in ws.iter_rows(min_row=2):
             for c in row:
-                c.alignment = Alignment(vertical="top", wrap_text=COLUMNS[c.column - 1][1] in ("beschreibung", "pruefhinweis"))
+                c.alignment = Alignment(vertical="top", wrap_text=COLUMNS[c.column - 1][1] in ("beschreibung", "pruefhinweis", "warum", "ki"))
             for i in link_cols:
                 c = row[i]
                 if isinstance(c.value, str) and c.value.startswith("http"):
