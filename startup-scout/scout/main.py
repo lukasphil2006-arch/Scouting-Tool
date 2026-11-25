@@ -71,12 +71,20 @@ def main(argv=None):
     print(f"Liste geschrieben: {path}  (Fokus: {len(focus)}, Weitere: {len(other)})")
 
     if not args.dry_run:
-        for r in results:
-            st.mark(state, r["domain"], "delivered" if r["domain"] in delivered else "rejected", today)
-        st.save(run["state_file"], state)
+        mail_ok = True
         if focus or other:
-            mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} Fokus-Treffer",
-                        output.mail_text(focus, other, meta), path)
+            try:
+                mailer.send(f"Startup-Scouting {meta['date']}: {len(focus)} Fokus-Treffer",
+                            output.mail_text(focus, other, meta), path)
+            except Exception as exc:  # Mail fehlgeschlagen: Liste bleibt als Datei erhalten, Merkzettel nicht updaten
+                mail_ok = False
+                print(f"::error::Mailversand fehlgeschlagen: {exc}")
+                print("Die Liste liegt trotzdem als Datei vor. Merkzettel wird nicht aktualisiert, "
+                      "damit die Treffer beim nächsten Lauf erneut erscheinen.")
+        if mail_ok:
+            for r in results:
+                st.mark(state, r["domain"], "delivered" if r["domain"] in delivered else "rejected", today)
+            st.save(run["state_file"], state)
 
 
 if __name__ == "__main__":

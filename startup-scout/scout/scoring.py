@@ -1,8 +1,27 @@
 """Regelbasierte Bewertung und Filter – keine KI, nachvollziehbar und reproduzierbar."""
+import re
+
+_PATTERNS = {}
+
+# Begriffe, die auf Investoren, Berichte oder Werbeseiten hindeuten (überschreibbar über config: exclude_markers)
+DEFAULT_EXCLUDE = [
+    "we invest in", "our portfolio", "portfolio companies", "portfolio-unternehmen", "venture capital firm",
+    "venture capital fund", "investment firm", "we back founders", "werbeartikel", "werbegeschenk", "giveaway",
+]
+
+
+def _pattern(term: str):
+    """Kurze Begriffe (<=5 Zeichen) müssen als ganzes Wort vorkommen ("exist" trifft nicht "existing").
+    Längere Begriffe dürfen am Ende weitergehen ("nachhaltig" trifft "Nachhaltigkeit")."""
+    t = term.strip().lower()
+    if t not in _PATTERNS:
+        end = r"(?!\w)" if len(t) <= 5 and t[-1:].isalnum() else ""
+        _PATTERNS[t] = re.compile(r"(?<!\w)" + re.escape(t) + end)
+    return _PATTERNS[t]
 
 
 def _hits(text: str, terms):
-    return [t for t in terms if t.lower() in text]
+    return [t for t in terms if _pattern(t).search(text)]
 
 
 def theme_scores(text: str, themes: dict):
@@ -25,9 +44,9 @@ def classify_region(plz: str, regions: list):
 
 
 def detect_phase(text: str, phases: list) -> str:
-    t = " " + text.lower() + " "
+    t = text.lower()
     for ph in phases:
-        if any(k in t for k in ph["keywords"]):
+        if _hits(t, ph["keywords"]):
             return ph["name"]
     return "unbekannt"
 
@@ -58,6 +77,8 @@ def evaluate(info: dict, cfg: dict, today):
     info["age"] = age
 
     reasons = []
+    if _hits(text, cfg.get("exclude_markers", DEFAULT_EXCLUDE)):
+        reasons.append("Investor/Werbeseite, kein Startup")
     if age is not None and (founded < flt["founded_from"] or age > flt["max_age_years"]):
         reasons.append("zu alt")
     if age is None and not flt["allow_unknown_founded"]:

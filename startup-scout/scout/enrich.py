@@ -2,9 +2,12 @@
 generische Kontaktadresse. Persönliche E-Mail-Adressen werden NIE gespeichert."""
 import datetime as dt
 import re
+import warnings
 from urllib.parse import urljoin
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, XMLParsedAsHTMLWarning
+
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 
 from .net import domain_of, host_only
 
